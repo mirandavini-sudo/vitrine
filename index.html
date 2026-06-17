@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Vitrine v11 — multi lojas</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vitrine">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@600;700;800;900&display=swap" rel="stylesheet">
@@ -833,6 +841,8 @@ function importBackup(file){const reader=new FileReader(); reader.onload=e=>{try
 function parseCsv(text){const rows=[];let row=[],val='',inQ=false;for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1];if(c==='"'){if(inQ&&n==='"'){val+='"';i++}else inQ=!inQ}else if(c===','&&!inQ){row.push(val);val=''}else if((c==='\n'||c==='\r')&&!inQ){if(c==='\r'&&n==='\n')i++;row.push(val); if(row.some(x=>x.trim()))rows.push(row); row=[]; val=''}else val+=c} row.push(val); if(row.some(x=>x.trim()))rows.push(row); return rows}
 function importCsvFile(file){const reader=new FileReader(); reader.onload=e=>{try{const rows=parseCsv(e.target.result); const headerIdx=rows.findIndex(r=>r.includes('Nome do Produto')); if(headerIdx<0){showToast('CSV sem coluna Nome do Produto.');return} const header=rows[headerIdx]; const idx=name=>header.indexOf(name); const imported=rows.slice(headerIdx+1).map((r,i)=>{const get=n=>idx(n)>=0?(r[idx(n)]||'').trim():''; if(!get('Nome do Produto'))return null; return normalizeProduct({id:uid('csv'),numero:get('#'),nome:get('Nome do Produto'),sku:get('SKU'),categoria:get('Categoria')||'Outro',relevancia:get('Relevância')||'Comum',status:normalizeStatus(get('Status Post')),linkProduto:get('Link do Produto'),imagemValor:get('Link da Imagem'),legenda:get('Legenda Instagram'),observacoes:get('Observações'),ordemPostagem:get('Ordem de Postagem'),ordemImportacao:state.products.length+i+1})}).filter(Boolean); pushUndo('Importar CSV'); const bySku=new Map(state.products.filter(p=>p.sku).map(p=>[p.sku.toLowerCase(),p])); const byName=new Map(state.products.map(p=>[p.nome.toLowerCase(),p])); imported.forEach(np=>{let old=np.sku?bySku.get(np.sku.toLowerCase()):null; if(!old)old=byName.get(np.nome.toLowerCase()); if(old){Object.assign(old,{...np,id:old.id,historico:old.historico||[],repostavel:old.repostavel||np.repostavel,prioridade:old.prioridade||np.prioridade})}else state.products.push(np)}); saveState(); render(); showToast(`CSV importado: ${imported.length} itens lidos.`)}catch(err){console.error(err);showToast('Não consegui importar esse CSV.')}}; reader.readAsText(file,'utf-8')}
 
+// PWA: registra o service worker (abre offline / instalável)
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(e=>console.warn('sw',e)); }); }
 // Sempre traz o overlay recém-aberto para a frente (evita popup abrindo atrás de outro)
 (function(){
   let z=100;
