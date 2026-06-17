@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Vitrine v11 — multi lojas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEEAE2; --surface:#FFFFFF; --surface2:#F7F5F0; --ink:#18140F; --soft:#6F675C; --faint:#A39C8E;
+  --line:rgba(24,20,15,.10); --line2:rgba(24,20,15,.16); --accent:#17150F; --accent2:#9B9388;
+  --accentSoft:#E4E1D9; --accentSurface:#F3F1EC; --danger:#B3261E; --warn:#C2410C; --ok:#3A7D44;
+  --radius-lg:22px; --radius-md:16px; --radius-sm:11px; --shadow:0 1px 2px rgba(24,20,15,.04),0 12px 34px rgba(24,20,15,.08);
+  --display:'Inter Tight','Inter',sans-serif; --body:'Inter',sans-serif;
+}
+*{box-sizing:border-box} html,body{margin:0;padding:0} body{background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;min-height:100vh} button,input,select,textarea{font-family:inherit} button{cursor:pointer} .hidden,.visually-hidden{display:none!important}
+#app{max-width:840px;margin:0 auto;padding:22px 16px 100px}.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.wordmark{font-family:var(--display);font-weight:900;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}.wordmark span{color:var(--accent)}.mini-version{font-size:11px;font-weight:800;color:var(--faint);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 9px}.client-head{margin-bottom:16px}.client-head h1{font-family:var(--display);font-weight:900;font-size:32px;line-height:1.02;margin:0}.client-tagline{font-size:13.5px;color:var(--soft);margin:4px 0 0}.hero{background:var(--accent);color:white;border-radius:var(--radius-lg);padding:20px;margin-bottom:14px}.hero-main{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.hero-label{font-size:12px;font-weight:700;opacity:.68;text-transform:uppercase;letter-spacing:.06em}.hero-number{font-family:var(--display);font-size:44px;line-height:1.05;font-weight:900;margin-top:2px}.hero-number .unit{font-size:14px;font-family:var(--body);font-weight:700;opacity:.65;margin-left:8px}.hero-lote-btn{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.11);color:#fff;border-radius:16px;padding:12px 14px;text-align:left;min-width:170px}.hero-lote-btn .lote{display:block;font-size:13.5px;font-weight:900}.hero-lote-btn .meta{display:block;font-size:11.5px;opacity:.65;margin-top:2px}.hero-chips{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:16px}.hero-chip{border:none;background:rgba(255,255,255,.14);border-radius:14px;padding:10px;text-align:left;color:white;min-height:64px}.hero-chip .n{display:block;font-family:var(--display);font-weight:900;font-size:20px}.hero-chip .l{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;opacity:.72}.toolbar{margin-bottom:14px}.search-row{display:flex;gap:8px;margin-bottom:10px}.search-row input{flex:1;border:1px solid var(--line2);background:var(--surface);border-radius:var(--radius-sm);padding:12px 14px;font-size:14.5px;color:var(--ink)}.filter-row{display:flex;gap:8px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px}.filter-row select{border:1px solid var(--line2);background:var(--surface);border-radius:999px;padding:8px 12px;font-size:13px;color:var(--soft);font-weight:700}.action-row{display:flex;gap:8px;flex-wrap:wrap}.btn{border:none;border-radius:999px;padding:11px 16px;font-size:13.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap}.btn svg{width:15px;height:15px}.btn-primary{background:var(--accent);color:white}.btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line2)}.btn-soft{background:var(--accentSoft);color:var(--ink)}.btn-danger{background:#F7D9D6;color:var(--danger)}.btn-sm{padding:7px 11px;font-size:12px}.btn:disabled{opacity:.42;cursor:not-allowed}.list-meta{font-size:12.5px;color:var(--soft);margin:4px 2px 10px}.product-list{display:flex;flex-direction:column;gap:8px}.product-card{background:var(--surface);border-radius:var(--radius-md);padding:12px;border:1px solid var(--line);display:grid;grid-template-columns:46px 1fr auto;gap:12px;align-items:center;text-align:left;width:100%}.product-order{width:38px;height:38px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--soft);font-size:12px}.product-info{min-width:0}.product-name{font-size:14.5px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.product-sub{font-size:11.5px;color:var(--soft);margin-top:2px;display:flex;gap:6px;flex-wrap:wrap}.pill{font-size:10.5px;font-weight:850;border-radius:999px;padding:4px 8px;display:inline-flex;align-items:center;gap:4px}.st-nao{background:var(--surface2);color:var(--soft);border:1px solid var(--line)}.st-a{background:var(--accentSoft);color:var(--ink)}.st-pub{background:var(--accent);color:white}.st-link{background:#F7D9D6;color:var(--danger)}.st-rep{background:#F8F1E4;color:#6B4324;border:1px solid #ECDFC4}.prio-alta{background:#FBE4D2;color:#9A3412}.prio-normal{background:var(--surface2);color:var(--soft);border:1px solid var(--line)}.prio-baixa{background:#EEF4FD;color:#1B3A8F}.empty-state{text-align:center;padding:52px 22px;color:var(--soft);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg)}.empty-state h3{font-family:var(--display);margin:0 0 6px}.overlay{position:fixed;inset:0;background:rgba(20,16,12,.46);display:none;align-items:flex-end;justify-content:center;z-index:100;padding:0}.overlay.open{display:flex}@media(min-width:700px){.overlay{align-items:center;padding:20px}}.modal{background:var(--surface);width:100%;max-width:680px;max-height:92vh;overflow-y:auto;border-radius:24px 24px 0 0;padding:18px 16px 24px}@media(min-width:700px){.modal{border-radius:var(--radius-lg);padding:20px}}.modal.wide{max-width:860px}.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px}.modal-head h2{font-family:var(--display);font-size:20px;margin:0}.modal-close{background:var(--surface2);border:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--soft);flex:none}.modal-close svg{width:16px;height:16px}.field{margin-bottom:13px}.field label,.label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11.5px;font-weight:900;color:var(--soft);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px}.input-wrap{display:flex;gap:6px;align-items:stretch}.input-wrap input,.input-wrap textarea{flex:1}.field input[type="text"],.field input[type="url"],.field input[type="date"],.field textarea,.field select,.field .plain-input{width:100%;border:1px solid var(--line2);border-radius:var(--radius-sm);padding:10px 12px;font-size:14.5px;color:var(--ink);background:var(--surface)}.field textarea{min-height:88px;resize:vertical}.copy-icon{width:38px;border-radius:var(--radius-sm);border:1px solid var(--line2);background:var(--surface2);color:var(--soft);display:flex;align-items:center;justify-content:center;flex:none}.copy-icon svg{width:16px;height:16px}.product-hero-image{height:230px;border-radius:var(--radius-md);background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:12px;color:var(--faint);font-size:13px}.product-hero-image img{width:100%;height:100%;object-fit:contain}.toggle-pair{display:flex;gap:6px;margin-bottom:8px}.toggle-pair button{flex:1;border:1px solid var(--line2);background:var(--surface);border-radius:var(--radius-sm);padding:8px;font-size:12.5px;font-weight:800;color:var(--soft)}.toggle-pair button.active{background:var(--accent);color:white;border-color:var(--accent)}.image-preview{width:100%;height:110px;border-radius:var(--radius-sm);background:var(--surface2);display:flex;align-items:center;justify-content:center;overflow:hidden;color:var(--faint);font-size:12px}.image-preview img{width:100%;height:100%;object-fit:contain}.modal-actions{display:flex;gap:8px;position:sticky;bottom:0;background:var(--surface);padding-top:10px;margin-top:16px;z-index:2}.modal-actions .btn{flex:1}.product-nav,.batch-nav,.prod-nav-mini{display:flex;align-items:center;gap:8px;margin-bottom:10px}.product-nav button,.batch-nav button,.prod-nav-mini button{width:36px;height:34px;border-radius:999px;border:1px solid var(--line2);background:var(--surface2);display:flex;align-items:center;justify-content:center;color:var(--soft)}.product-nav svg,.batch-nav svg,.prod-nav-mini svg{width:16px;height:16px}.product-nav-label,.batch-nav-label{font-size:12.5px;font-weight:850;color:var(--soft);flex:1;text-align:center}.repost-toggle{display:flex!important;align-items:flex-start!important;justify-content:flex-start!important;gap:10px!important;text-transform:none!important;letter-spacing:0!important;font-size:13px!important;color:var(--ink)!important;background:var(--surface2);border:1px solid var(--line);border-radius:var(--radius-md);padding:12px}.repost-toggle input{margin-top:2px}.repost-toggle span span{display:block;font-size:12px;color:var(--soft);font-weight:600;margin-top:2px}.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.history-list{display:flex;flex-direction:column;gap:7px}.history-item{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px}.history-item .t{font-size:12.8px;font-weight:850}.history-item .d{font-size:11.5px;color:var(--soft);margin-top:2px}.batch-top{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}.batch-badge{font-size:11px;font-weight:900;padding:6px 10px;border-radius:999px}.batch-badge.edicao{background:var(--accentSoft)}.batch-badge.fechado{background:#FBE4D2;color:#9A3412}.batch-badge.concluido{background:var(--surface2);color:var(--soft);border:1px solid var(--line)}.batch-control{background:var(--surface2);border:1px solid var(--line);border-radius:var(--radius-md);padding:12px;display:flex;align-items:center;justify-content:space-between;margin:10px 0}.batch-control .k{font-size:11px;font-weight:900;color:var(--faint);text-transform:uppercase}.batch-control .v{font-family:var(--display);font-size:24px;font-weight:900}.stepper{display:flex;gap:6px}.stepper button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line2);background:var(--surface);font-weight:900;font-size:20px}.batch-actions-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.batch-actions-row .btn{flex:1;min-width:135px}.calendar-list{display:flex;flex-direction:column;gap:12px;margin-top:12px}.week-card{background:var(--surface2);border:1px solid var(--line);border-radius:var(--radius-md);padding:12px}.week-title{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:900;text-transform:uppercase;color:var(--soft);letter-spacing:.04em;margin-bottom:8px}.week-items{display:flex;flex-direction:column;gap:8px}.batch-item{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;display:grid;grid-template-columns:30px 1fr;gap:10px}.batch-index{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}.batch-product-name{font-size:13.8px;font-weight:900}.batch-product-meta{font-size:11.5px;color:var(--soft);margin-top:2px;display:flex;gap:5px;flex-wrap:wrap}.batch-date-row{display:grid;grid-template-columns:1fr auto;gap:6px;margin-top:8px}.batch-date-row input{border:1px solid var(--line2);border-radius:10px;padding:7px 9px;font-size:12px;background:#fff}.item-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.icon-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--line2);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--soft)}.icon-btn svg{width:14px;height:14px}.icon-btn.good{background:var(--ok);border-color:var(--ok);color:white}.icon-btn.warn{background:#FBE4D2;border-color:#FBE4D2;color:#9A3412}.icon-btn.danger{background:#F7D9D6;border-color:#F7D9D6;color:var(--danger)}.warn-box{background:#FBE4D2;color:#9A3412;border-radius:12px;padding:8px 10px;font-size:12.3px;margin-top:8px}.candidate-tabs{display:flex;gap:6px;margin-bottom:10px}.candidate-tabs button{flex:1;border:1px solid var(--line2);background:var(--surface);border-radius:999px;padding:9px;font-weight:900;color:var(--soft)}.candidate-tabs button.active{background:var(--accent);color:white;border-color:var(--accent)}.candidate-list{display:flex;flex-direction:column;gap:8px}.candidate-card{border:1px solid var(--line);background:var(--surface2);border-radius:14px;padding:11px;text-align:left}.candidate-card .name{font-size:13.5px;font-weight:900}.candidate-card .meta{font-size:11.5px;color:var(--soft);margin-top:2px}.production-card{background:var(--surface2);border:1px solid var(--line);border-radius:var(--radius-lg);padding:14px}.production-image{height:260px;border-radius:var(--radius-md);background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--faint);overflow:hidden;margin-bottom:12px}.production-image img{width:100%;height:100%;object-fit:contain}.production-title{font-family:var(--display);font-size:24px;line-height:1.05;margin:0 0 4px}.copy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.trash-item{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:11px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:white;padding:11px 18px;border-radius:999px;font-size:13px;font-weight:800;opacity:0;transition:.22s;z-index:500;max-width:92%;text-align:center}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}::-webkit-scrollbar{width:0;height:0}@media(max-width:760px){.hero-chips{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-main{display:block}.hero-lote-btn{margin-top:12px;width:100%}.row2{grid-template-columns:1fr}.product-card{grid-template-columns:40px 1fr auto}.copy-grid{grid-template-columns:1fr}.batch-top{grid-template-columns:1fr}.modal-actions{flex-wrap:wrap}.modal-actions .btn{min-width:130px}.product-hero-image,.production-image{height:210px}}
+
+
+/* ===== V11: organização visual + multi lojas ===== */
+body[data-client="maria"]{--accent:#17150F;--accent2:#9B9388;--accentSoft:#E4E1D9;--accentSurface:#F3F1EC;}
+body[data-client="chapelaria"]{--accent:#6B4324;--accent2:#C9A876;--accentSoft:#ECDFC4;--accentSurface:#F8F1E4;}
+body[data-client="ze"]{--accent:#1B3A8F;--accent2:#7FA6E8;--accentSoft:#DCE8FB;--accentSurface:#EEF4FD;}
+.client-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.client-copy{min-width:220px;flex:1}.client-copy h1{font-size:31px}
+.client-switcher{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:10px 12px;box-shadow:0 1px 2px rgba(24,20,15,.03);min-width:230px}
+.client-switcher label{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:900;color:var(--faint);margin-bottom:5px}
+.client-switcher select{width:100%;border:1px solid var(--line2);background:var(--surface2);border-radius:999px;padding:9px 12px;font-size:13.5px;font-weight:850;color:var(--ink)}
+.toolbar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:12px;box-shadow:0 1px 2px rgba(24,20,15,.03)}
+.action-row{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:10px;align-items:stretch}
+.action-group{background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:10px;min-width:0}
+.action-group-title{font-size:10.5px;font-weight:900;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px 2px}
+.action-group-buttons{display:flex;gap:7px;flex-wrap:wrap}.action-group-buttons .btn{padding:9px 12px;font-size:12.5px;flex:1;min-width:max-content}
+.action-group.main .btn{min-width:135px}.action-group.data .btn,.action-group.safety .btn{min-width:118px}
+.btn-icon-label svg{width:15px;height:15px}.btn-quiet{background:transparent;color:var(--soft);border:1px dashed var(--line2)}
+@media(max-width:860px){.action-row{grid-template-columns:1fr}.action-group-buttons .btn{min-width:135px}.client-switcher{width:100%}}
+@media(max-width:520px){.action-group-buttons{display:grid;grid-template-columns:1fr 1fr}.action-group-buttons .btn{min-width:0}.action-group.main .btn:first-child{grid-column:1/-1}.client-copy h1{font-size:28px}}
+
+
+/* ===== V11 melhorias: pendências, progresso, stepper ===== */
+
+/* Dots de pendência nos cards */
+.pend-dots{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;align-items:center}
+.pend-dot{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:800;border-radius:999px;padding:2px 7px;white-space:nowrap}
+.pend-dot.leg{background:#F3F1EC;color:#6F675C;border:1px solid #D4D0C8}
+.pend-dot.img{background:#FBE4D2;color:#9A3412}
+.pend-dot.arte{background:#F8F1E4;color:#6B4324}
+.pend-dot.link{background:#F7D9D6;color:#B3261E}
+
+/* Barra de progresso do lote no hero */
+.hero-progress{margin-top:14px}
+.hero-progress-labels{display:flex;justify-content:space-between;font-size:11px;font-weight:800;opacity:.75;margin-bottom:5px}
+.hero-progress-track{height:6px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden}
+.hero-progress-fill{height:100%;border-radius:999px;background:white;transition:width .4s ease}
+
+/* Stepper de estado do lote */
+.batch-stepper{display:flex;align-items:flex-start;margin:14px 0 10px;background:var(--surface2);border:1px solid var(--line);border-radius:var(--radius-md);padding:12px 10px}
+.batch-step{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+.batch-step+.batch-step::before{content:'→';position:absolute;left:-8px;top:8px;font-size:13px;color:var(--faint)}
+.batch-step-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--line2);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:var(--faint);margin-bottom:5px;transition:.2s}
+.batch-step.active .batch-step-dot{border-color:var(--accent);background:var(--accent);color:white}
+.batch-step.done .batch-step-dot{border-color:#3A7D44;background:#3A7D44;color:white}
+.batch-step-name{font-size:11px;font-weight:900;color:var(--soft)}
+.batch-step.active .batch-step-name{color:var(--ink)}
+.batch-step-hint{font-size:10px;color:var(--faint);margin-top:2px;line-height:1.3;max-width:90px}
+
+/* Aviso na ação de fechar lote */
+.close-batch-hint{background:#FBE4D2;color:#9A3412;border-radius:10px;padding:8px 10px;font-size:11.5px;margin-bottom:6px}
+
+/* Progress do lote no modal */
+.batch-progress-row{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
+.batch-progress-track{flex:1;height:7px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);overflow:hidden}
+.batch-progress-fill{height:100%;border-radius:999px;background:var(--ok);transition:width .3s}
+.batch-progress-label{font-size:12px;font-weight:800;color:var(--soft);white-space:nowrap}
+
+/* ===== Seleção múltipla ===== */
+.btn-select-mode{background:var(--surface);color:var(--ink);border:1px solid var(--line2)}
+.btn-select-mode.active{background:var(--accent);color:white;border-color:var(--accent)}
+.product-card.selectable{grid-template-columns:22px 46px 1fr auto;cursor:pointer}
+.product-card.selected{border-color:var(--accent);background:var(--accentSurface);box-shadow:0 0 0 2px var(--accent)}
+.select-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--soft);background:var(--surface2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.15s;align-self:center}
+.product-card.selected .select-check{background:var(--accent);border-color:var(--accent);color:white}
+.select-check svg{width:11px;height:11px;display:none}
+.product-card.selected .select-check svg{display:block}
+.bulk-bar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--ink);color:white;padding:12px 16px;display:none;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.bulk-bar.open{display:flex}
+.bulk-bar-count{font-size:13px;font-weight:900;white-space:nowrap;flex:1;min-width:100px}
+.bulk-bar select{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:white;border-radius:999px;padding:9px 12px;font-size:13px;font-weight:700}
+.bulk-bar select option{background:#18140F;color:white}
+.bulk-bar .btn{min-width:90px}
+.bulk-bar .btn-apply{background:white;color:var(--ink)}
+.bulk-bar .btn-cancel{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2)}
+
+/* ===== UI REFINEMENT v11.1: espaço, hierarquia, clareza ===== */
+
+/* Base */
+#app { padding: 28px 20px 120px; max-width: 860px; }
+
+/* Topbar */
+.topbar { margin-bottom: 28px; }
+.wordmark { font-size: 13px; letter-spacing: .1em; }
+.mini-version { font-size: 10.5px; padding: 5px 10px; color: var(--faint); background: transparent; border-color: var(--line); }
+
+/* Client head */
+.client-head { margin-bottom: 22px; align-items: center; }
+.client-copy h1 { font-size: 36px; letter-spacing: -.025em; line-height: 1; }
+.client-tagline { font-size: 13px; color: var(--faint); margin-top: 5px; font-weight: 400; }
+.client-switcher { border-radius: 16px; padding: 10px 14px; }
+.client-switcher label { font-size: 10px; letter-spacing: .08em; margin-bottom: 6px; }
+.client-switcher select { border-radius: 12px; padding: 8px 12px; font-size: 13px; }
+
+/* Hero */
+.hero { border-radius: 26px; padding: 22px 22px 18px; margin-bottom: 20px; }
+.hero-label { font-size: 10.5px; letter-spacing: .09em; opacity: .55; }
+.hero-number { font-size: 48px; line-height: 1; margin-top: 4px; }
+.hero-number .unit { font-size: 13px; opacity: .5; }
+.hero-lote-btn { border-radius: 14px; padding: 11px 14px; border-color: rgba(255,255,255,.15); }
+.hero-lote-btn .lote { font-size: 13px; }
+.hero-lote-btn .meta { font-size: 11px; opacity: .5; }
+.hero-chips { gap: 8px; margin-top: 18px; }
+.hero-chip { border-radius: 14px; padding: 11px 10px; min-height: 62px; background: rgba(255,255,255,.11); border: 1px solid rgba(255,255,255,.07); transition: background .15s; }
+.hero-chip:hover { background: rgba(255,255,255,.17); }
+.hero-chip .n { font-size: 22px; margin-bottom: 1px; }
+.hero-chip .l { font-size: 9.5px; letter-spacing: .05em; opacity: .65; }
+.hero-progress { margin-top: 16px; }
+.hero-progress-labels { font-size: 10.5px; opacity: .6; margin-bottom: 6px; }
+.hero-progress-track { height: 4px; border-radius: 999px; background: rgba(255,255,255,.15); }
+.hero-progress-fill { border-radius: 999px; }
+
+/* Toolbar */
+.toolbar { border-radius: 20px; padding: 14px 14px 12px; margin-bottom: 16px; box-shadow: none; border: 1px solid var(--line); }
+.search-row { margin-bottom: 10px; }
+.search-row input { padding: 12px 16px; font-size: 14.5px; border-radius: 12px; border-color: var(--line); background: var(--bg); color: var(--ink); }
+.search-row input::placeholder { color: var(--faint); }
+.filter-row { gap: 6px; margin-bottom: 12px; }
+.filter-row select { padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--soft); border-color: var(--line); border-radius: 999px; background: var(--bg); }
+.action-row { gap: 10px; }
+.action-group { border-radius: 16px; padding: 11px 12px; background: var(--bg); }
+.action-group-title { font-size: 9.5px; letter-spacing: .07em; margin-bottom: 9px; color: var(--faint); }
+.action-group-buttons { gap: 6px; }
+.action-group-buttons .btn { padding: 9px 13px; font-size: 12px; border-radius: 11px; font-weight: 700; }
+.btn-quiet { border-style: solid; border-color: var(--line); }
+
+/* List meta */
+.list-meta { font-size: 11.5px; color: var(--faint); margin: 6px 2px 10px; font-weight: 500; }
+
+/* Product list */
+.product-list { gap: 5px; }
+
+/* Product card */
+.product-card {
+  padding: 13px 14px;
+  border-radius: 16px;
+  gap: 12px;
+  grid-template-columns: 44px 1fr auto;
+  align-items: start;
+  border-color: var(--line);
+  transition: border-color .12s, box-shadow .12s;
+}
+.product-card:hover {
+  border-color: rgba(24,20,15,.2);
+  box-shadow: 0 2px 10px rgba(24,20,15,.06);
+}
+.product-order {
+  width: 38px; height: 38px;
+  border-radius: 11px;
+  font-size: 12px; font-weight: 700;
+  color: var(--faint);
+  background: var(--bg);
+  border: none;
+  margin-top: 2px;
+}
+.product-name { font-size: 13.5px; font-weight: 700; line-height: 1.3; letter-spacing: -.01em; }
+.product-sub { font-size: 11.5px; color: var(--faint); margin-top: 2px; gap: 4px; font-weight: 400; }
+.status-wrap { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; flex-shrink: 0; }
+
+/* Pills */
+.pill { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+.st-nao { background: var(--bg); color: var(--faint); border: 1px solid var(--line); }
+.st-a { background: var(--accentSoft); color: var(--soft); border: none; }
+.st-pub { background: var(--accent); color: white; }
+.st-link { background: #F7D9D6; color: var(--danger); }
+.prio-alta { background: #FBE4D2; color: #9A3412; font-size: 9.5px; }
+.prio-normal { background: transparent; color: var(--faint); border: 1px solid var(--line); font-size: 9.5px; }
+.prio-baixa { background: #EEF4FD; color: #1B3A8F; font-size: 9.5px; }
+
+/* Pendency badges - pequenas e discretas */
+.pend-dots { margin-top: 6px; gap: 3px; }
+.pend-dot { font-size: 9px; padding: 2px 6px; font-weight: 700; border-radius: 999px; }
+.pend-dot.leg { background: var(--bg); color: var(--faint); border: 1px solid var(--line); }
+.pend-dot.img { background: #FBE4D2; color: #9A3412; }
+.pend-dot.arte { background: #F8F1E4; color: #6B4324; }
+.pend-dot.link { background: #F7D9D6; color: #B3261E; }
+
+/* Buttons global */
+.btn { border-radius: 12px; padding: 10px 16px; font-size: 13px; font-weight: 700; letter-spacing: -.01em; }
+.btn-sm { padding: 6px 10px; font-size: 11.5px; }
+.btn-primary { background: var(--accent); }
+.btn-ghost { border-color: var(--line2); }
+.btn-soft { background: var(--accentSoft); }
+
+/* Modal */
+.modal { border-radius: 22px 22px 0 0; padding: 20px 18px 28px; }
+@media(min-width:700px) { .modal { border-radius: 22px; padding: 22px 22px 26px; } }
+.modal-head { margin-bottom: 16px; }
+.modal-head h2 { font-size: 18px; letter-spacing: -.02em; }
+.modal-close { background: var(--bg); border: none; }
+
+/* Batch stepper */
+.batch-stepper { border-radius: 16px; padding: 14px 12px; margin: 12px 0 14px; }
+.batch-step-dot { width: 22px; height: 22px; font-size: 10.5px; }
+.batch-step-name { font-size: 10.5px; }
+.batch-step-hint { font-size: 9.5px; max-width: 100px; }
+
+/* Batch progress */
+.batch-progress-track { height: 6px; border-radius: 999px; border: none; background: var(--bg); }
+.batch-progress-label { font-size: 11.5px; }
+
+/* Fields */
+.field { margin-bottom: 12px; }
+.field label, .label { font-size: 10.5px; letter-spacing: .04em; }
+.field input[type="text"], .field input[type="url"], .field input[type="date"], .field textarea, .field select { border-radius: 12px; padding: 10px 13px; font-size: 14px; border-color: var(--line); background: var(--bg); }
+.field textarea { min-height: 80px; }
+
+/* Mobile */
+@media(max-width:520px) {
+  #app { padding: 20px 14px 110px; }
+  .client-copy h1 { font-size: 28px; }
+  .hero { padding: 18px 16px 14px; border-radius: 22px; }
+  .hero-number { font-size: 40px; }
+  .toolbar { padding: 12px; }
+  .product-card { padding: 12px; gap: 10px; }
+  .product-name { font-size: 13px; }
+}
+
+/* Empty state */
+.empty-state { border-radius: 20px; padding: 48px 20px; }
+.empty-state h3 { font-size: 16px; font-weight: 700; }
+
+/* Toast */
+.toast { border-radius: 14px; font-size: 13px; font-weight: 600; padding: 10px 18px; }
+
+/* Load more */
+.load-more { display: block; width: auto; margin: 12px auto 0; padding: 10px 24px; border-radius: 12px; font-size: 13px; }
+</style>
+</head>
+<body data-client="maria">
+<div id="app">
+  <div class="topbar"><div class="wordmark">Vitri<span>n</span>e</div><div style="display:flex;gap:8px;align-items:center"><span class="sync-dot" id="syncDot" title="Sincronizado com a nuvem"></span><span class="mini-version">v11</span><button class="mini-version" id="btnLogout" style="cursor:pointer;display:none">Sair</button></div></div>
+  <div class="client-head">
+    <div class="client-copy"><h1 id="clientName">Maria Chapéu</h1><p class="client-tagline" id="clientTagline">Organizador de produtos, lotes mensais e postagens recorrentes</p></div>
+    <div class="client-switcher"><label for="clientSelect">Loja ativa</label><select id="clientSelect"></select></div>
+  </div>
+  <div class="hero">
+    <div class="hero-main">
+      <div><div class="hero-label">Posts separados no lote atual</div><div class="hero-number" id="heroNumber">0<span class="unit">separados</span></div></div>
+      <button type="button" class="hero-lote-btn" id="heroLoteBtn"><span class="lote" id="heroBatchLabel">Sem lote ativo</span><span class="meta" id="heroTargetLabel">Meta 12 posts</span></button>
+    </div>
+    <div id="heroProgress"></div><div class="hero-chips" id="heroChips"></div>
+  </div>
+  <div class="toolbar">
+    <div class="search-row"><input type="search" id="searchInput" placeholder="Buscar por nome ou SKU…"></div>
+    <div class="filter-row">
+      <select id="filterStatus"><option value="">Todos os status</option></select>
+      <select id="filterCategoria"><option value="">Todas as categorias</option></select>
+      <select id="filterPrioridade"><option value="">Todas as prioridades</option><option value="alta">Prioridade alta</option><option value="normal">Prioridade normal</option><option value="baixa">Prioridade baixa</option></select>
+      <select id="filterPendencia"><option value="">Todas as pendências</option><option value="sem-legenda">Sem legenda</option><option value="sem-imagem">Sem imagem</option><option value="sem-arte">Sem arte final</option><option value="sem-link">Sem link</option><option value="link-quebrado">Link quebrado</option><option value="repostaveis">Repostáveis</option></select>
+    </div>
+    <div class="action-row">
+      <div class="action-group main">
+        <div class="action-group-title">Planejamento</div>
+        <div class="action-group-buttons">
+          <button class="btn btn-primary btn-icon-label" id="btnSelecaoMes">📅 Criar/abrir lote</button>
+          <button class="btn btn-soft btn-icon-label" id="btnModoProducao">▶ Modo produção</button>
+          <button class="btn btn-ghost btn-icon-label" id="btnNovoProduto">＋ Novo produto</button>
+          <button class="btn btn-select-mode" id="btnSelectMode">Selecionar</button>
+        </div>
+      </div>
+      <div class="action-group data">
+        <div class="action-group-title">Dados</div>
+        <div class="action-group-buttons">
+          <button class="btn btn-ghost" id="btnImportar">Importar CSV</button>
+          <button class="btn btn-ghost" id="btnExportar">Exportar CSV</button>
+          <button class="btn btn-ghost" id="btnExportarBackup">Backup JSON</button>
+          <button class="btn btn-ghost" id="btnImportarBackup">Importar backup</button>
+        </div>
+      </div>
+      <div class="action-group safety">
+        <div class="action-group-title">Segurança</div>
+        <div class="action-group-buttons">
+          <button class="btn btn-ghost" id="btnLixeira">Lixeira</button>
+          <button class="btn btn-quiet" id="btnUndo">Desfazer</button>
+          <button class="btn btn-danger" id="btnLimparTudo">Limpar tudo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list-meta" id="listMeta"></div>
+  <div class="product-list" id="productList"></div>
+  <div class="bulk-bar" id="bulkBar">
+  <span class="bulk-bar-count" id="bulkCount">0 selecionados</span>
+  <select id="bulkStatusSelect">
+    <option value="">Mudar status para…</option>
+    <option value="Não Postado">Não Postado</option>
+    <option value="A Postar">A Postar</option>
+    <option value="Publicado">Publicado</option>
+    <option value="Link Quebrado">Link Quebrado</option>
+  </select>
+  <select id="bulkPrioSelect">
+    <option value="">Mudar prioridade para…</option>
+    <option value="alta">Alta</option>
+    <option value="normal">Normal</option>
+    <option value="baixa">Baixa</option>
+  </select>
+  <button class="btn btn-apply" id="btnBulkApply">Aplicar</button>
+  <button class="btn btn-cancel" id="btnBulkCancel">Cancelar</button>
+</div>
+<button class="btn btn-ghost load-more" id="btnLoadMore" style="display:none;margin:14px auto 0;">Carregar mais</button>
+</div>
+<input type="file" id="csvFileInput" accept=".csv" class="visually-hidden">
+<input type="file" id="backupFileInput" accept=".json,application/json" class="visually-hidden">
+
+<div class="overlay" id="productOverlay"><div class="modal"><div class="modal-head"><h2 id="productModalTitle">Produto</h2><button class="modal-close" data-close="productOverlay">✕</button></div><div id="productBody"></div></div></div>
+<div class="overlay" id="batchOverlay"><div class="modal wide"><div class="modal-head"><h2 id="batchModalTitle">Lote</h2><button class="modal-close" data-close="batchOverlay">✕</button></div><div id="batchBody"></div></div></div>
+<div class="overlay" id="pickerOverlay"><div class="modal"><div class="modal-head"><h2 id="pickerTitle">Substituir item</h2><button class="modal-close" data-close="pickerOverlay">✕</button></div><div id="pickerBody"></div></div></div>
+<div class="overlay" id="statusOverlay"><div class="modal"><div class="modal-head"><h2 id="statusTitle">Lista</h2><button class="modal-close" data-close="statusOverlay">✕</button></div><div id="statusBody"></div></div></div>
+<div class="overlay" id="productionOverlay"><div class="modal"><div class="modal-head"><h2>Modo produção</h2><button class="modal-close" data-close="productionOverlay">✕</button></div><div id="productionBody"></div></div></div>
+<div class="overlay" id="trashOverlay"><div class="modal"><div class="modal-head"><h2>Lixeira</h2><button class="modal-close" data-close="trashOverlay">✕</button></div><div id="trashBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<style>
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--faint);transition:background .3s}
+.sync-dot.ok{background:var(--ok)}
+.sync-dot.saving{background:var(--warn)}
+.sync-dot.erro{background:var(--danger)}
+.auth-overlay{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:600;padding:20px}
+.auth-overlay.open{display:flex}
+.auth-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:28px 24px;width:100%;max-width:380px}
+.auth-card .wordmark{font-family:var(--display);font-weight:900;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-bottom:4px}
+.auth-card .wordmark span{color:var(--accent)}
+.auth-card h2{font-family:var(--display);font-size:22px;margin:0 0 4px}
+.auth-card p.sub{font-size:13px;color:var(--soft);margin:0 0 20px}
+.auth-card label{display:block;font-size:11px;font-weight:900;color:var(--soft);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.auth-card input{width:100%;border:1px solid var(--line2);border-radius:var(--radius-sm);padding:11px 13px;font-size:14.5px;color:var(--ink);background:var(--bg);margin-bottom:14px}
+.auth-card .btn{width:100%;margin-top:4px}
+.auth-error{font-size:12.5px;color:var(--danger);min-height:18px;margin-bottom:6px}
+</style>
+
+<div class="auth-overlay" id="authOverlay">
+  <form class="auth-card" id="authForm">
+    <div class="wordmark">Vitri<span>n</span>e</div>
+    <h2>Entrar</h2>
+    <p class="sub">Acesse seus produtos e lotes de qualquer dispositivo.</p>
+    <label for="authEmail">E-mail</label>
+    <input type="email" id="authEmail" autocomplete="username" required placeholder="seu@email.com">
+    <label for="authPass">Senha</label>
+    <input type="password" id="authPass" autocomplete="current-password" required placeholder="••••••••">
+    <div class="auth-error" id="authError"></div>
+    <button type="submit" class="btn btn-primary" id="authSubmit">Entrar</button>
+  </form>
+</div>
+
+<style>
+/* Miniatura da imagem no card (espelha o link, não salva nada) */
+.card-thumb{position:relative;width:44px;height:44px;border-radius:11px;overflow:hidden;background:var(--bg);border:1px solid var(--line);flex-shrink:0;margin-top:2px}
+.card-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.card-thumb .thumb-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:var(--faint);text-align:center;line-height:1.05;padding:2px}
+.card-thumb .thumb-num{position:absolute;top:0;left:0;background:rgba(24,20,15,.62);color:#fff;font-size:8.5px;font-weight:800;padding:1px 4px;border-bottom-right-radius:6px;line-height:1.3}
+.card-thumb .thumb-actions{position:absolute;left:0;right:0;bottom:0;display:flex;gap:1px}
+.card-thumb .thumb-actions [role=button]{flex:1;height:16px;background:rgba(24,20,15,.62);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.card-thumb .thumb-actions [role=button]:hover{background:rgba(24,20,15,.9)}
+.card-thumb .thumb-actions svg{width:9px;height:9px}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SEED_PRODUCTS = [];
+const STORAGE_KEY = 'vitrine_v11_clean_state';
+// ===== Supabase (nuvem) =====
+const SUPABASE_URL = 'https://kthodeejuktiqszbczhg.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_PSVdSXOHkNtpgKyQmefiog_DB5Mfx_C';
+const sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+let currentUser = null;
+let cloudSaveTimer = null;
+let cloudReadOk = false; // só empurra p/ nuvem depois de confirmar uma leitura (evita sobrescrever com vazio se a internet falhar)
+function setSyncDot(s){const d=document.getElementById('syncDot'); if(!d)return; d.className='sync-dot'+(s?(' '+s):''); d.title=s==='ok'?'Sincronizado com a nuvem':s==='saving'?'Salvando…':s==='erro'?'Erro ao sincronizar (dados salvos no aparelho)':'Sincronizado';}
+const CLIENTS = [
+  {id:'maria', nome:'Maria Chapéu', tagline:'Organizador de produtos, lotes mensais e postagens recorrentes'},
+  {id:'chapelaria', nome:'Chapelaria Acessórios', tagline:'Organizador de produtos, lotes mensais e postagens recorrentes'},
+  {id:'ze', nome:'Zé do Chapéu', tagline:'Organizador de produtos, lotes mensais e postagens recorrentes'}
+];
+const STATUSES = ['Não Postado','A Postar','Publicado','Link Quebrado'];
+const CATEGORIES = ['Chapéu','Boina','Boné','Viseira','Quepe','Cartola','Gorro','Outro'];
+const DEFAULT_BATCH_TARGET = 12;
+let state = {clientId:'maria', stores:{}, products:[], batches:[], trash:[], visibleCount:40, search:'', filterStatus:'', filterCategoria:'', filterPrioridade:'', filterPendencia:''};
+
+function emptyStore(){return {products:[],batches:[],trash:[]}}
+function currentClient(){return CLIENTS.find(c=>c.id===state.clientId)||CLIENTS[0]}
+function syncCurrentStore(){
+  if(!state.stores)state.stores={};
+  if(!state.clientId)state.clientId='maria';
+  state.stores[state.clientId]={products:state.products||[],batches:state.batches||[],trash:state.trash||[]};
+}
+function activateClient(id, keepFilters=false){
+  syncCurrentStore();
+  state.clientId=id;
+  if(!state.stores[id])state.stores[id]=emptyStore();
+  const store=state.stores[id];
+  state.products=store.products||[]; state.batches=store.batches||[]; state.trash=store.trash||[];
+  if(!keepFilters){state.search='';state.filterStatus='';state.filterCategoria='';state.filterPrioridade='';state.filterPendencia='';
+    const s=document.getElementById('searchInput'); if(s)s.value='';
+    ['filterStatus','filterCategoria','filterPrioridade','filterPendencia'].forEach(fid=>{const el=document.getElementById(fid); if(el)el.value='';});
+  }
+  document.body.setAttribute('data-client', id);
+  const c=currentClient();
+  const n=document.getElementById('clientName'); if(n)n.textContent=c.nome;
+  const t=document.getElementById('clientTagline'); if(t)t.textContent=c.tagline;
+  const sel=document.getElementById('clientSelect'); if(sel)sel.value=id;
+  undoStack=[]; renderUndoButton(); render();
+}
+function buildClientSelect(){const sel=document.getElementById('clientSelect'); if(!sel)return; sel.innerHTML=CLIENTS.map(c=>`<option value="${c.id}">${c.nome}</option>`).join(''); sel.value=state.clientId; sel.addEventListener('change',e=>activateClient(e.target.value));}
+
+let undoStack = [];
+let selectMode = false;
+let selectedIds = new Set();
+let currentProductIds = [];
+let currentProductId = null;
+let pickerState = null;
+let production = {batchId:null, index:0};
+
+function uid(prefix='id'){return prefix+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8)}
+function escapeHtml(s){return (s||'').toString().replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function orderValue(v){const n=parseInt((v||'').toString().replace(/[^0-9-]/g,''),10);return Number.isFinite(n)?n:999999}
+function productOrder(p){return orderValue(p.ordemPostagem)||orderValue(p.numero)||p.ordemImportacao||999999}
+function today(){return new Date().toISOString().slice(0,10)}
+function fmtDate(v){if(!v)return ''; const d=new Date(v+'T00:00:00'); return Number.isNaN(d.getTime())?v:d.toLocaleDateString('pt-BR')}
+function daysSince(date){if(!date)return null; const d=new Date(date+'T00:00:00'); if(Number.isNaN(d.getTime()))return null; return Math.floor((Date.now()-d.getTime())/86400000)}
+function normalizeStatus(s){return STATUSES.includes(s)?s:'Não Postado'}
+function priorityLabel(p){return p==='alta'?'Alta':p==='baixa'?'Baixa':'Normal'}
+function statusClass(s){return s==='A Postar'?'st-a':s==='Publicado'?'st-pub':s==='Link Quebrado'?'st-link':'st-nao'}
+function showToast(msg,ms=2400){const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'),ms)}
+function clone(obj){return JSON.parse(JSON.stringify(obj))}
+function pushUndo(label){try{undoStack.push({label, state:clone({products:state.products,batches:state.batches,trash:state.trash})}); if(undoStack.length>12)undoStack.shift(); renderUndoButton()}catch(e){console.warn(e)}}
+function undo(){const item=undoStack.pop(); if(!item){showToast('Nada para desfazer.');return} state.products=item.state.products; state.batches=item.state.batches; state.trash=item.state.trash; saveState(); render(); renderUndoButton(); showToast('Última ação desfeita.')}
+function renderUndoButton(){const b=document.getElementById('btnUndo'); if(b)b.disabled=undoStack.length===0}
+function saveState(){
+  syncCurrentStore();
+  const payload={version:11,clientId:state.clientId,stores:state.stores,updatedAt:Date.now()};
+  try{localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))}catch(e){console.warn(e)}
+  scheduleCloudSave();
+}
+function scheduleCloudSave(){
+  if(!sb||!currentUser)return;
+  setSyncDot('saving');
+  clearTimeout(cloudSaveTimer);
+  cloudSaveTimer=setTimeout(pushCloud,1200);
+}
+async function pushCloud(){
+  if(!sb||!currentUser)return;
+  if(!cloudReadOk){ setSyncDot('erro'); return; } // ainda não confirmei leitura da nuvem; não arrisco sobrescrever
+  try{
+    const payload={version:11,clientId:state.clientId,stores:state.stores,updatedAt:Date.now()};
+    const {error}=await sb.from('app_state').upsert({user_id:currentUser.id,data:payload,updated_at:new Date().toISOString()});
+    if(error){console.warn('cloud save',error); setSyncDot('erro')} else setSyncDot('ok');
+  }catch(e){console.warn(e); setSyncDot('erro')}
+}
+function applyLoadedState(data){
+  state.clientId=data.clientId||'maria'; state.stores=data.stores||{};
+  CLIENTS.forEach(c=>{if(!state.stores[c.id])state.stores[c.id]=emptyStore()});
+  const store=state.stores[state.clientId]||emptyStore();
+  state.products=(store.products||[]).map(normalizeProduct); state.batches=store.batches||[]; state.trash=store.trash||[];
+  state.stores[state.clientId]={products:state.products,batches:state.batches,trash:state.trash};
+}
+function startEmptyState(){
+  state.clientId='maria'; state.stores={maria:emptyStore(),chapelaria:emptyStore(),ze:emptyStore()};
+  state.products=[]; state.batches=[]; state.trash=[];
+}
+function loadState(){
+  try{const raw=localStorage.getItem(STORAGE_KEY); if(raw){applyLoadedState(JSON.parse(raw)); return}}
+  catch(e){console.warn(e)}
+  startEmptyState(); saveState();
+}
+async function loadStateFromCloud(){
+  if(!sb||!currentUser)return 'error';
+  try{
+    const {data,error}=await sb.from('app_state').select('data').eq('user_id',currentUser.id).maybeSingle();
+    if(error){console.warn('cloud load',error); return 'error'}
+    cloudReadOk=true; // a leitura funcionou: a partir de agora é seguro escrever na nuvem
+    if(data&&data.data&&data.data.stores){applyLoadedState(data.data); setSyncDot('ok'); return 'loaded'}
+    return 'empty'; // login válido mas ainda sem dados salvos = primeiro uso
+  }catch(e){console.warn(e)}
+  return 'error';
+}
+function loadStateLocalOnly(){
+  try{const raw=localStorage.getItem(STORAGE_KEY); if(raw){applyLoadedState(JSON.parse(raw)); return}}
+  catch(e){console.warn(e)}
+  startEmptyState();
+}
+function normalizeProduct(p){return {...p, status:normalizeStatus(p.status), categoria:p.categoria||'Outro', prioridade:p.prioridade||'normal', repostavel:!!p.repostavel, historico:Array.isArray(p.historico)?p.historico:[], arteTipo:p.arteTipo||'link', arteValor:p.arteValor||'', imagemTipo:p.imagemTipo||(p.imagemValor?'link':''), imagemValor:p.imagemValor||'', legenda:p.legenda||'', observacoes:p.observacoes||'', linkProduto:p.linkProduto||'', ordemPostagem:p.ordemPostagem||'', ordemImportacao:p.ordemImportacao||0}}
+function productsById(){return new Map(state.products.map(p=>[p.id,p]))}
+function activeBatch(){return state.batches.find(b=>b.status==='edicao') || state.batches[state.batches.length-1] || null}
+function sortedBatches(){return state.batches.slice().sort((a,b)=>a.criadoEm-b.criadoEm)}
+function batchNumber(id){const arr=sortedBatches(); const i=arr.findIndex(b=>b.id===id); return i>=0?i+1:arr.length}
+function batchLabel(b){return b?`Lote ${String(batchNumber(b.id)).padStart(2,'0')}`:'Sem lote'}
+function batchById(id){return state.batches.find(b=>b.id===id)}
+function itemProduct(item){return state.products.find(p=>p.id===item.productId)}
+function isPending(p,type){if(type==='sem-legenda')return !p.legenda; if(type==='sem-imagem')return !p.imagemValor; if(type==='sem-arte')return !p.arteValor; if(type==='sem-link')return !p.linkProduto; if(type==='link-quebrado')return p.status==='Link Quebrado'; if(type==='repostaveis')return !!p.repostavel; return true}
+function getFilteredProducts(){const q=state.search.trim().toLowerCase(); return state.products.filter(p=>{if(state.filterStatus && p.status!==state.filterStatus)return false; if(state.filterCategoria && p.categoria!==state.filterCategoria)return false; if(state.filterPrioridade && (p.prioridade||'normal')!==state.filterPrioridade)return false; if(state.filterPendencia && !isPending(p,state.filterPendencia))return false; if(q && !((p.nome||'').toLowerCase().includes(q)||(p.sku||'').toLowerCase().includes(q)))return false; return true}).sort((a,b)=>productOrder(a)-productOrder(b)||a.nome.localeCompare(b.nome,'pt-BR'))}
+
+function resetApp(){
+  if(!confirm('Isso vai apagar TODOS os produtos, lotes e lixeira de TODAS as lojas deste navegador. Não dá para desfazer. Deseja continuar?'))return;
+  try{
+    Object.keys(localStorage).forEach(k=>{if(k.toLowerCase().includes('vitrine'))localStorage.removeItem(k)});
+  }catch(e){console.warn(e)}
+  state.clientId='maria';
+  state.stores={maria:emptyStore(),chapelaria:emptyStore(),ze:emptyStore()};
+  state.products=[]; state.batches=[]; state.trash=[];
+  undoStack=[]; selectedIds.clear(); selectMode=false;
+  saveState();
+  activateClient('maria');
+  showToast('Tudo limpo. App zerado.');
+}
+function toggleSelectMode(){
+  selectMode=!selectMode;
+  if(!selectMode){selectedIds.clear(); updateBulkBar();}
+  const btn=document.getElementById('btnSelectMode');
+  if(btn){btn.textContent=selectMode?'Cancelar seleção':'Selecionar'; btn.classList.toggle('active',selectMode);}
+  renderList();
+}
+function toggleSelect(id){
+  if(selectedIds.has(id))selectedIds.delete(id); else selectedIds.add(id);
+  updateBulkBar();
+  renderList();
+}
+function updateBulkBar(){
+  const bar=document.getElementById('bulkBar');
+  const cnt=document.getElementById('bulkCount');
+  if(!bar)return;
+  if(selectMode&&selectedIds.size>0){bar.classList.add('open'); cnt.textContent=`${selectedIds.size} produto${selectedIds.size>1?'s':''} selecionado${selectedIds.size>1?'s':''}`;}
+  else bar.classList.remove('open');
+}
+function applyBulk(){
+  const st=document.getElementById('bulkStatusSelect').value;
+  const pr=document.getElementById('bulkPrioSelect').value;
+  if(!st&&!pr){showToast('Escolha um status ou prioridade para aplicar.');return}
+  if(!selectedIds.size){showToast('Nenhum produto selecionado.');return}
+  pushUndo('Alteração em lote');
+  state.products.forEach(p=>{if(selectedIds.has(p.id)){if(st)p.status=normalizeStatus(st); if(pr)p.prioridade=pr;}});
+  saveState();
+  selectedIds.clear();
+  selectMode=false;
+  document.getElementById('btnSelectMode').textContent='Selecionar';
+  document.getElementById('btnSelectMode').classList.remove('active');
+  document.getElementById('bulkStatusSelect').value='';
+  document.getElementById('bulkPrioSelect').value='';
+  updateBulkBar();
+  render();
+  showToast(`Alteração aplicada.`);
+}
+
+async function init(){
+  fillSelect('filterStatus',STATUSES,'Todos os status');
+  fillSelect('filterCategoria',CATEGORIES,'Todas as categorias');
+  bind(); bindAuth();
+  if(!sb){ showToast('Sem conexão com a nuvem. Verifique a internet.'); }
+  let session=null;
+  try{ const r=await sb.auth.getSession(); session=r.data.session; }catch(e){ console.warn(e); }
+  if(session&&session.user){ currentUser=session.user; await enterApp(); }
+  else{ showLogin(); }
+}
+async function enterApp(){
+  hideLogin();
+  const status=await loadStateFromCloud();
+  if(status==='empty'){ startEmptyState(); saveState(); }          // primeiro uso: cria a linha na nuvem
+  else if(status==='error'){ loadStateLocalOnly(); setSyncDot('erro'); showToast('Sem conexão com a nuvem agora — usando os dados deste aparelho.'); }
+  // status==='loaded': dados já vieram da nuvem
+  buildClientSelect();
+  document.body.setAttribute('data-client',state.clientId);
+  const c=currentClient();
+  document.getElementById('clientName').textContent=c.nome;
+  document.getElementById('clientTagline').textContent=c.tagline;
+  document.getElementById('btnLogout').style.display='';
+  render(); renderUndoButton(); setSyncDot('ok');
+}
+function showLogin(){document.getElementById('authOverlay').classList.add('open')}
+function hideLogin(){document.getElementById('authOverlay').classList.remove('open')}
+function bindAuth(){
+  document.getElementById('authForm').addEventListener('submit',doLogin);
+  document.getElementById('btnLogout').addEventListener('click',doLogout);
+  document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') syncFromCloud(); });
+}
+async function doLogin(e){
+  e.preventDefault();
+  const email=document.getElementById('authEmail').value.trim();
+  const pass=document.getElementById('authPass').value;
+  const btn=document.getElementById('authSubmit');
+  const err=document.getElementById('authError');
+  err.textContent=''; btn.disabled=true; btn.textContent='Entrando…';
+  try{
+    const {data,error}=await sb.auth.signInWithPassword({email,password:pass});
+    if(error){ err.textContent='E-mail ou senha incorretos.'; btn.disabled=false; btn.textContent='Entrar'; return; }
+    currentUser=data.user;
+    await enterApp();
+  }catch(ex){ console.warn(ex); err.textContent='Não foi possível entrar. Tente de novo.'; }
+  btn.disabled=false; btn.textContent='Entrar';
+}
+async function doLogout(){
+  try{ await sb.auth.signOut(); }catch(e){ console.warn(e); }
+  currentUser=null; location.reload();
+}
+async function syncFromCloud(){
+  if(!currentUser) return;
+  if(document.querySelector('.overlay.open')) return; // não interrompe edição
+  const status=await loadStateFromCloud();
+  if(status==='loaded'){ buildClientSelect(); render(); }
+}
+function fillSelect(id,items,placeholder){const sel=document.getElementById(id); sel.innerHTML=''; if(placeholder){const o=document.createElement('option');o.value='';o.textContent=placeholder;sel.appendChild(o)} items.forEach(it=>{const o=document.createElement('option');o.value=it;o.textContent=it;sel.appendChild(o)})}
+function bind(){document.getElementById('searchInput').addEventListener('input',e=>{state.search=e.target.value; state.visibleCount=40; renderList()}); ['filterStatus','filterCategoria','filterPrioridade','filterPendencia'].forEach(id=>document.getElementById(id).addEventListener('change',e=>{state[id.replace('filter','filter')]=e.target.value; if(id==='filterStatus')state.filterStatus=e.target.value; if(id==='filterCategoria')state.filterCategoria=e.target.value; if(id==='filterPrioridade')state.filterPrioridade=e.target.value; if(id==='filterPendencia')state.filterPendencia=e.target.value; state.visibleCount=40; renderList()})); document.getElementById('btnLoadMore').addEventListener('click',()=>{state.visibleCount+=40;renderList()}); document.getElementById('btnSelecaoMes').addEventListener('click',openOrCreateBatch); document.getElementById('heroLoteBtn').addEventListener('click',openOrCreateBatch); document.getElementById('btnNovoProduto').addEventListener('click',()=>openProductModal(null)); document.getElementById('btnModoProducao').addEventListener('click',openProductionMode); document.getElementById('btnImportar').addEventListener('click',()=>document.getElementById('csvFileInput').click()); document.getElementById('csvFileInput').addEventListener('change',e=>{const f=e.target.files[0]; if(f)importCsvFile(f); e.target.value=''}); document.getElementById('btnExportar').addEventListener('click',exportProductsCsv); document.getElementById('btnExportarBackup').addEventListener('click',exportBackup); document.getElementById('btnImportarBackup').addEventListener('click',()=>document.getElementById('backupFileInput').click()); document.getElementById('backupFileInput').addEventListener('change',e=>{const f=e.target.files[0]; if(f)importBackup(f); e.target.value=''}); document.getElementById('btnLixeira').addEventListener('click',openTrash); document.getElementById('btnUndo').addEventListener('click',undo);
+  document.getElementById('btnLimparTudo').addEventListener('click',resetApp);
+  document.getElementById('btnSelectMode').addEventListener('click',toggleSelectMode);
+  document.getElementById('btnBulkApply').addEventListener('click',applyBulk);
+  document.getElementById('btnBulkCancel').addEventListener('click',()=>{selectMode=false;selectedIds.clear();updateBulkBar();document.getElementById('btnSelectMode').textContent='Selecionar';document.getElementById('btnSelectMode').classList.remove('active');renderList();}); document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.close).classList.remove('open')))}
+function render(){renderHero(); renderList(); saveState()}
+function renderHero(){const b=activeBatch(); const separated=b?(b.itens||[]).length:0; document.getElementById('heroNumber').innerHTML=`${separated}<span class="unit">separados</span>`; document.getElementById('heroBatchLabel').textContent=b?`${batchLabel(b)} · ${b.status==='edicao'?'em edição':b.status==='fechado'?'fechado':'concluído'}`:'Sem lote ativo'; document.getElementById('heroTargetLabel').textContent=b?`Meta ${b.targetCount||DEFAULT_BATCH_TARGET} posts`:'Meta padrão 12 posts';
+  const heroProgress=document.getElementById('heroProgress');
+  if(heroProgress){
+    if(b&&b.itens.length){
+      const pub=b.itens.filter(i=>i.publicado).length;
+      const total=b.itens.length;
+      const pct=total?Math.round(pub/total*100):0;
+      heroProgress.innerHTML=`<div class="hero-progress"><div class="hero-progress-labels"><span>${pub} publicados de ${total} no lote</span><span>${pct}%</span></div><div class="hero-progress-track"><div class="hero-progress-fill" style="width:${pct}%"></div></div></div>`;
+    }else{heroProgress.innerHTML=''}
+  } const counts={nao:0,a:0,pub:0,rep:0,pend:0,link:0}; state.products.forEach(p=>{if(p.status==='Não Postado')counts.nao++; if(p.status==='A Postar')counts.a++; if(p.status==='Publicado')counts.pub++; if(p.status==='Link Quebrado')counts.link++; if(p.repostavel)counts.rep++; if(!p.legenda||!p.imagemValor||!p.arteValor||!p.linkProduto)counts.pend++}); const chips=[['Não postados',counts.nao,()=>openStatusList('Não Postado')],['A postar',counts.a,()=>openStatusList('A Postar')],['Publicados',counts.pub,()=>openStatusList('Publicado')],['Repostáveis',counts.rep,()=>openStatusList('repostaveis')],['Pendências',counts.pend,()=>openStatusList('pendencias')],['Link quebrado',counts.link,()=>openStatusList('Link Quebrado')]]; document.getElementById('heroChips').innerHTML=chips.map((c,i)=>`<button type="button" class="hero-chip" data-chip="${i}"><span class="n">${c[1]}</span><span class="l">${c[0]}</span></button>`).join(''); document.querySelectorAll('[data-chip]').forEach(btn=>btn.addEventListener('click',()=>chips[+btn.dataset.chip][2]()))}
+function renderList(){const filtered=getFilteredProducts(); const visible=filtered.slice(0,state.visibleCount); document.getElementById('listMeta').textContent=`${filtered.length} produto${filtered.length===1?'':'s'} encontrado${filtered.length===1?'':'s'} · ordenado por ordem de postagem`; const list=document.getElementById('productList'); if(!visible.length){list.innerHTML=`<div class="empty-state"><h3>Nenhum produto por aqui</h3><p>Tente mudar os filtros ou importar uma nova base.</p></div>`}else{list.innerHTML=visible.map(p=>productCard(p)).join('')} document.getElementById('btnLoadMore').style.display=filtered.length>visible.length?'block':'none'; currentProductIds=filtered.map(p=>p.id); list.querySelectorAll('[data-product]').forEach(card=>card.addEventListener('click',()=>{
+    if(selectMode){toggleSelect(card.dataset.product);return}
+    openProductModal(card.dataset.product,currentProductIds)
+  }))}
+function productCard(p){
+  const notPublished=p.status!=='Publicado';
+  const dots=[];
+  if(notPublished&&!p.legenda)dots.push('<span class="pend-dot leg">Legenda</span>');
+  if(notPublished&&!p.imagemValor)dots.push('<span class="pend-dot img">Imagem</span>');
+  if(notPublished&&!p.arteValor)dots.push('<span class="pend-dot arte">Arte</span>');
+  if(notPublished&&!p.linkProduto)dots.push('<span class="pend-dot link">Link</span>');
+  const dotsHtml=dots.length?`<span class="pend-dots">${dots.join('')}</span>`:'';
+  const sel=selectMode;
+  const checked=selectedIds.has(p.id);
+  const checkHtml=sel?`<span class="select-check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>`:'';
+  const ordem=escapeHtml(p.ordemPostagem||p.numero||'—');
+  const img=p.imagemValor;
+  const thumb=`<span class="card-thumb">`+(img?`<img src="${escapeHtml(img)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.querySelector('.thumb-fallback').style.display='flex'"><span class="thumb-fallback" style="display:none">Imagem indisponível</span>`:`<span class="thumb-fallback">Sem imagem</span>`)+`<span class="thumb-num">${ordem}</span>`+(img?`<span class="thumb-actions"><span role="button" data-copyimg="${p.id}" title="Copiar imagem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><rect x="2" y="2" width="13" height="13" rx="2"/></svg></span><span role="button" data-openimg="${p.id}" title="Abrir imagem em nova aba"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></span>`:'')+`</span>`;
+  return `<button class="product-card${sel?' selectable':''}${checked?' selected':''}" type="button" data-product="${p.id}">${checkHtml}${thumb}<span class="product-info"><span class="product-name">${escapeHtml(p.nome)}</span><span class="product-sub"><span>${escapeHtml(p.categoria)}</span>${p.sku?`<span>SKU ${escapeHtml(p.sku)}</span>`:''}${p.repostavel?'<span>repostável</span>':''}</span>${dotsHtml}</span><span class="status-wrap"><span class="pill ${statusClass(p.status)}">${escapeHtml(p.status)}</span><span class="pill prio-${p.prioridade||'normal'}">${priorityLabel(p.prioridade)}</span></span></button>`;
+}
+function openStatusList(kind){let title='Lista'; let arr=[]; if(STATUSES.includes(kind)){title=kind; arr=state.products.filter(p=>p.status===kind)} else if(kind==='repostaveis'){title='Repostáveis'; arr=state.products.filter(p=>p.repostavel)} else {title='Pendências'; arr=state.products.filter(p=>!p.legenda||!p.imagemValor||!p.arteValor||!p.linkProduto||p.status==='Link Quebrado')} arr=arr.sort((a,b)=>productOrder(a)-productOrder(b)); document.getElementById('statusTitle').textContent=title; document.getElementById('statusBody').innerHTML=arr.length?`<div class="product-list">${arr.slice(0,120).map(productCard).join('')}</div><p class="list-meta">Mostrando até 120 itens nesta janela.</p>`:`<div class="empty-state"><h3>Nada por aqui</h3></div>`; document.getElementById('statusOverlay').classList.add('open'); const ids=arr.map(p=>p.id); document.getElementById('statusBody').querySelectorAll('[data-product]').forEach(card=>card.addEventListener('click',()=>openProductModal(card.dataset.product,ids)))}
+function copyButton(valueId){return `<button type="button" class="copy-icon" data-copy="${valueId}" title="Copiar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><rect x="2" y="2" width="13" height="13" rx="2"/></svg></button>`}
+function openProductModal(id, ids=null){const p=id?state.products.find(x=>x.id===id):null; currentProductId=p?p.id:null; const navIds=ids||currentProductIds||state.products.map(x=>x.id); const idx=p?navIds.indexOf(p.id):-1; const navHtml=p?`<div class="product-nav"><button type="button" id="prodPrev" ${idx<=0?'disabled':''}>‹</button><span class="product-nav-label">Produto ${idx+1} de ${navIds.length}</span><button type="button" id="prodNext" ${idx<0||idx>=navIds.length-1?'disabled':''}>›</button></div>`:''; document.getElementById('productModalTitle').textContent=p?'Editar produto':'Novo produto'; const img=(p&&p.imagemValor)?`<img src="${escapeHtml(p.imagemValor)}" onerror="this.parentElement.textContent='Não foi possível carregar a imagem'">`:'Sem imagem do produto'; document.getElementById('productBody').innerHTML=`${navHtml}<div class="product-hero-image">${img}</div><form id="productForm"><input type="hidden" id="fId" value="${p?p.id:''}"><div class="field"><label>Nome do produto</label><div class="input-wrap"><input type="text" id="fNome" required value="${escapeHtml(p?p.nome:'')}">${copyButton('fNome')}</div></div><div class="row2"><div class="field"><label>SKU</label><div class="input-wrap"><input type="text" id="fSku" value="${escapeHtml(p?p.sku:'')}">${copyButton('fSku')}</div></div><div class="field"><label>Categoria</label><select id="fCategoria">${CATEGORIES.map(c=>`<option ${p&&p.categoria===c?'selected':''}>${c}</option>`).join('')}</select></div></div><div class="row2"><div class="field"><label>Status</label><select id="fStatus">${STATUSES.map(s=>`<option ${p&&p.status===s?'selected':''}>${s}</option>`).join('')}</select></div><div class="field"><label>Prioridade</label><select id="fPrioridade"><option value="alta" ${p&&p.prioridade==='alta'?'selected':''}>Alta</option><option value="normal" ${!p||!p.prioridade||p.prioridade==='normal'?'selected':''}>Normal</option><option value="baixa" ${p&&p.prioridade==='baixa'?'selected':''}>Baixa</option></select></div></div><div class="field"><label class="repost-toggle"><input type="checkbox" id="fRepostavel" ${p&&p.repostavel?'checked':''}><span><strong>Produto repostável recorrente</strong><span>Marca este item como produto relevante para aparecer em substituições futuras.</span></span></label></div><div class="field"><label>Link do produto no site</label><div class="input-wrap"><input type="url" id="fLinkProduto" value="${escapeHtml(p?p.linkProduto:'')}" placeholder="https://...">${copyButton('fLinkProduto')}</div></div><div class="field"><label>Imagem do produto</label><div class="input-wrap"><input type="url" id="fImagemValor" value="${escapeHtml(p?p.imagemValor:'')}" placeholder="https://...">${copyButton('fImagemValor')}</div><input type="file" id="fImagemUpload" accept="image/*" class="visually-hidden"><div style="margin-top:7px"><button type="button" class="btn btn-sm btn-ghost" id="btnUploadImagem">Enviar arquivo</button></div></div><div class="field"><label>Legenda do Instagram</label><div class="input-wrap"><textarea id="fLegenda">${escapeHtml(p?p.legenda:'')}</textarea>${copyButton('fLegenda')}</div></div><div class="field"><label>Observações</label><div class="input-wrap"><input type="text" id="fObservacoes" value="${escapeHtml(p?p.observacoes:'')}">${copyButton('fObservacoes')}</div></div><div class="field"><label>Arte final</label><div class="input-wrap"><input type="url" id="fArteValor" value="${escapeHtml(p?p.arteValor:'')}" placeholder="link ou arquivo em base64">${copyButton('fArteValor')}</div><input type="file" id="fArteUpload" accept="image/*" class="visually-hidden"><div style="margin-top:7px"><button type="button" class="btn btn-sm btn-ghost" id="btnUploadArte">Enviar arquivo</button></div></div>${p?historyHtml(p):''}<div class="modal-actions"><button type="button" class="btn btn-ghost" data-close="productOverlay">Cancelar</button>${p?'<button type="button" class="btn btn-danger" id="btnDeleteProduct">Excluir</button>':''}<button type="submit" class="btn btn-primary">Salvar produto</button></div></form>`; document.getElementById('productOverlay').classList.add('open'); document.querySelectorAll('#productBody [data-close]').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.close).classList.remove('open'))); document.querySelectorAll('#productBody [data-copy]').forEach(b=>b.addEventListener('click',()=>copyText(document.getElementById(b.dataset.copy).value))); if(p){document.getElementById('prodPrev')?.addEventListener('click',()=>openProductModal(navIds[idx-1],navIds)); document.getElementById('prodNext')?.addEventListener('click',()=>openProductModal(navIds[idx+1],navIds)); document.getElementById('btnDeleteProduct').addEventListener('click',()=>deleteProduct(p.id))} document.getElementById('btnUploadImagem').addEventListener('click',()=>document.getElementById('fImagemUpload').click()); document.getElementById('btnUploadArte').addEventListener('click',()=>document.getElementById('fArteUpload').click()); document.getElementById('fImagemUpload').addEventListener('change',e=>readImageFile(e.target.files[0],val=>{document.getElementById('fImagemValor').value=val})); document.getElementById('fArteUpload').addEventListener('change',e=>readImageFile(e.target.files[0],val=>{document.getElementById('fArteValor').value=val})); document.getElementById('productForm').addEventListener('submit',saveProductForm)}
+function historyHtml(p){const h=p.historico||[]; return `<div class="field"><label>Histórico do produto</label><div class="history-list">${h.length?h.slice().reverse().slice(0,8).map(ev=>`<div class="history-item"><div class="t">${escapeHtml(ev.titulo||ev.tipo||'Registro')}</div><div class="d">${escapeHtml(ev.data?fmtDate(ev.data):'')} ${ev.lote?'· '+escapeHtml(ev.lote):''}</div></div>`).join(''):'<div class="history-item"><div class="d">Ainda sem histórico.</div></div>'}</div></div>`}
+function readImageFile(file,cb){if(!file)return; const reader=new FileReader(); reader.onload=e=>cb(e.target.result); reader.readAsDataURL(file)}
+function saveProductForm(e){e.preventDefault(); pushUndo('Salvar produto'); const id=document.getElementById('fId').value||uid('prod'); const existing=state.products.find(p=>p.id===id); const data={...(existing||{}),id,nome:document.getElementById('fNome').value.trim(),sku:document.getElementById('fSku').value.trim(),categoria:document.getElementById('fCategoria').value,status:document.getElementById('fStatus').value,prioridade:document.getElementById('fPrioridade').value,repostavel:document.getElementById('fRepostavel').checked,linkProduto:document.getElementById('fLinkProduto').value.trim(),imagemValor:document.getElementById('fImagemValor').value.trim(),imagemTipo:document.getElementById('fImagemValor').value.trim()?'link':'',legenda:document.getElementById('fLegenda').value,observacoes:document.getElementById('fObservacoes').value.trim(),arteValor:document.getElementById('fArteValor').value.trim(),arteTipo:document.getElementById('fArteValor').value.trim()?'link':'',historico:existing?.historico||[],criadoEm:existing?.criadoEm||Date.now(),ordemImportacao:existing?.ordemImportacao||state.products.length+1}; if(existing){state.products=state.products.map(p=>p.id===id?data:p)}else{state.products.push(data)} saveState(); document.getElementById('productOverlay').classList.remove('open'); render(); showToast('Produto salvo.')}
+function deleteProduct(id){const p=state.products.find(x=>x.id===id); if(!p)return; pushUndo('Excluir produto'); state.trash.unshift({...p, deletedAt:Date.now()}); state.products=state.products.filter(x=>x.id!==id); state.batches.forEach(b=>b.itens=(b.itens||[]).filter(i=>i.productId!==id)); saveState(); document.getElementById('productOverlay').classList.remove('open'); render(); showToast('Produto movido para a lixeira.')}
+function openTrash(){document.getElementById('trashBody').innerHTML=state.trash.length?state.trash.map((p,i)=>`<div class="trash-item"><div><strong>${escapeHtml(p.nome)}</strong><div class="list-meta">Excluído em ${new Date(p.deletedAt).toLocaleDateString('pt-BR')}</div></div><button class="btn btn-sm btn-ghost" data-restore="${i}">Restaurar</button></div>`).join(''):'<div class="empty-state"><h3>Lixeira vazia</h3></div>'; document.getElementById('trashOverlay').classList.add('open'); document.querySelectorAll('[data-restore]').forEach(b=>b.addEventListener('click',()=>restoreTrash(+b.dataset.restore)))}
+function restoreTrash(idx){const p=state.trash[idx]; if(!p)return; pushUndo('Restaurar produto'); state.products.push(p); state.trash.splice(idx,1); saveState(); render(); openTrash(); showToast('Produto restaurado.')}
+function openOrCreateBatch(){const b=activeBatch(); if(b)openBatch(b.id); else createBatch()}
+function createBatch(target=DEFAULT_BATCH_TARGET){pushUndo('Criar lote'); const used=new Set(state.batches.filter(b=>b.status!=='concluido').flatMap(b=>(b.itens||[]).map(i=>i.productId))); const candidates=state.products.filter(p=>p.status==='Não Postado'&&!used.has(p.id)).sort((a,b)=>productOrder(a)-productOrder(b)); const selected=candidates.slice(0,target); const b={id:uid('batch'),label:new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'}),status:'edicao',targetCount:target,criadoEm:Date.now(),observacao:'',itens:selected.map((p,i)=>({productId:p.id,ordem:i+1,dataPrevista:'',publicado:false,publicadoEm:''}))}; state.batches.push(b); saveState(); render(); openBatch(b.id); showToast('Lote criado em edição.')}
+function openBatch(id){const b=batchById(id); if(!b)return; reindexBatch(b); const arr=sortedBatches(); const idx=arr.findIndex(x=>x.id===id); document.getElementById('batchModalTitle').textContent=`${batchLabel(b)} · ${b.label||''}`; const aprovado=b.itens.filter(i=>i.publicado).length; const body=document.getElementById('batchBody'); body.innerHTML=`<div class="batch-nav"><button id="batchPrev" ${idx<=0?'disabled':''}>‹</button><span class="batch-nav-label">${batchLabel(b)} de ${arr.length}</span><button id="batchNext" ${idx>=arr.length-1?'disabled':''}>›</button></div><div class="batch-stepper">
+  <div class="batch-step ${b.status==='edicao'?'active':'done'}">
+    <div class="batch-step-dot">${b.status==='edicao'?'1':'✓'}</div>
+    <div class="batch-step-name">Montagem</div>
+    <div class="batch-step-hint">Selecione os produtos do lote</div>
+  </div>
+  <div class="batch-step ${b.status==='fechado'?'active':b.status==='concluido'?'done':''}">
+    <div class="batch-step-dot">${b.status==='concluido'?'✓':'2'}</div>
+    <div class="batch-step-name">Agendado</div>
+    <div class="batch-step-hint">Produtos vão para "A Postar", defina datas</div>
+  </div>
+  <div class="batch-step ${b.status==='concluido'?'active':''}">
+    <div class="batch-step-dot">3</div>
+    <div class="batch-step-name">Concluído</div>
+    <div class="batch-step-hint">Lote encerrado</div>
+  </div>
+</div>
+<div class="batch-top"><div><div class="list-meta">${b.itens.length} produtos separados · criado em ${new Date(b.criadoEm).toLocaleDateString('pt-BR')}</div><span class="batch-badge ${b.status}">${b.status==='edicao'?'Em edição':b.status==='fechado'?'Fechado':'Concluído'}</span></div><button class="btn btn-sm btn-ghost" id="btnHistory">Ver lotes</button></div><div class="batch-control"><div><span class="k">Meta do lote</span><div class="v">${b.itens.length}/${b.targetCount||DEFAULT_BATCH_TARGET}</div></div><div class="stepper"><button data-target="-1">−</button><button data-target="1">+</button></div></div><div class="field"><label>Observação interna do lote</label><div class="input-wrap"><input type="text" id="batchObs" value="${escapeHtml(b.observacao||'')}" placeholder="Ex: foco em inverno, Dia dos Namorados, boinas…">${copyButton('batchObs')}</div></div><div class="batch-actions-row"><button class="btn btn-soft" id="btnAddItem">Adicionar item</button><button class="btn btn-ghost" id="btnNewBatch">Gerar novo lote</button><button class="btn btn-ghost" id="btnProductionBatch">Modo produção</button></div><div class="batch-progress-row"><div class="batch-progress-track"><div class="batch-progress-fill" style="width:${b.itens.length?Math.round(aprovado/b.itens.length*100):0}%"></div></div><span class="batch-progress-label">${aprovado}/${b.itens.length} publicados</span></div><div class="list-meta">Visualização agrupada por semanas (3 posts/semana).</div><div class="calendar-list">${calendarHtml(b)}</div><div class="modal-actions">${b.status==='edicao'?'<div class="close-batch-hint">⚠ Fechar o lote move todos os produtos para <strong>A Postar</strong> e permite definir datas de publicação.</div><button class="btn btn-ghost" id="btnCloseBatch">Fechar lote</button>':'<button class="btn btn-ghost" id="btnReopenBatch">Reabrir lote</button>'}${b.status!=='concluido'?'<button class="btn btn-soft" id="btnConcludeBatch">Concluir lote</button>':''}<button class="btn btn-primary" id="btnExportBatch">Exportar lote</button></div><button class="btn btn-danger" id="btnDeleteBatch" style="width:100%;margin-top:8px">🗑 Excluir lote</button>`; document.getElementById('batchOverlay').classList.add('open'); document.getElementById('batchPrev')?.addEventListener('click',()=>openBatch(arr[idx-1].id)); document.getElementById('batchNext')?.addEventListener('click',()=>openBatch(arr[idx+1].id)); document.querySelectorAll('#batchBody [data-copy]').forEach(x=>x.addEventListener('click',()=>copyText(document.getElementById(x.dataset.copy).value))); document.getElementById('batchObs').addEventListener('change',e=>{b.observacao=e.target.value; saveState()}); document.querySelectorAll('#batchBody [data-target]').forEach(btn=>btn.addEventListener('click',()=>adjustTarget(b.id,+btn.dataset.target))); document.getElementById('btnAddItem').addEventListener('click',()=>openPicker(b.id,'add')); document.getElementById('btnNewBatch').addEventListener('click',()=>createBatch(b.targetCount||DEFAULT_BATCH_TARGET)); document.getElementById('btnProductionBatch').addEventListener('click',()=>openProductionMode(b.id)); document.getElementById('btnExportBatch').addEventListener('click',()=>exportBatchCsv(b.id)); document.getElementById('btnHistory').addEventListener('click',openBatchHistory); document.getElementById('btnCloseBatch')?.addEventListener('click',()=>closeBatch(b.id)); document.getElementById('btnReopenBatch')?.addEventListener('click',()=>reopenBatch(b.id)); document.getElementById('btnConcludeBatch')?.addEventListener('click',()=>concludeBatch(b.id)); document.getElementById('btnDeleteBatch')?.addEventListener('click',()=>deleteBatch(b.id)); bindBatchItemButtons(b)}
+function calendarHtml(b){const items=b.itens.slice().sort((a,b)=>a.ordem-b.ordem); if(!items.length)return '<div class="empty-state"><h3>Lote vazio</h3></div>'; const weeks=[]; for(let i=0;i<items.length;i+=3)weeks.push(items.slice(i,i+3)); return weeks.map((week,wi)=>`<div class="week-card"><div class="week-title"><span>Semana ${wi+1}</span><span>${week.length} post${week.length>1?'s':''}</span></div><div class="week-items">${week.map(item=>batchItemHtml(b,item)).join('')}</div></div>`).join('')}
+function batchItemHtml(b,item){const p=itemProduct(item); if(!p)return ''; const warn=repetitionWarning(p,b); return `<div class="batch-item" data-batch-item="${p.id}"><div class="batch-index">${item.ordem}</div><div><div class="batch-product-name">${escapeHtml(p.nome)}</div><div class="batch-product-meta"><span>${escapeHtml(p.categoria)}</span>${p.repostavel?'<span class="pill st-rep">repostável</span>':''}<span class="pill ${statusClass(p.status)}">${p.status}</span><span class="pill prio-${p.prioridade}">${priorityLabel(p.prioridade)}</span></div>${warn?`<div class="warn-box">${escapeHtml(warn)}</div>`:''}<div class="batch-date-row"><input type="date" value="${escapeHtml(item.dataPrevista||'')}" data-date="${p.id}"><button class="btn btn-sm ${item.publicado?'btn-soft':'btn-ghost'}" data-publish="${p.id}">${item.publicado?'✓ Publicado (tocar p/ desfazer)':'Marcar publicado'}</button></div><div class="item-actions"><button class="icon-btn" data-open="${p.id}" title="Abrir produto">↗</button><button class="icon-btn" data-up="${p.id}" title="Mover para cima">↑</button><button class="icon-btn" data-down="${p.id}" title="Mover para baixo">↓</button><button class="icon-btn warn" data-swap="${p.id}" title="Substituir">↔</button><button class="icon-btn danger" data-remove="${p.id}" title="Remover do lote">×</button><button class="btn btn-sm btn-ghost" data-prio="${p.id}" title="Mudar prioridade">⚑ ${priorityLabel(p.prioridade)}</button><button class="btn btn-sm ${p.repostavel?'btn-soft':'btn-ghost'}" data-repost="${p.id}" title="Marcar como repostável">${p.repostavel?'★ Repostável':'☆ Repost'}</button></div></div></div>`}
+function repetitionWarning(p,b){if(!p.repostavel)return ''; const last=(p.historico||[]).filter(ev=>ev.tipo==='Publicado').sort((a,b)=>(a.data||'').localeCompare(b.data||'')).pop(); if(!last)return ''; const d=daysSince(last.data); if(d!==null && d<30)return `Atenção: este repostável apareceu há ${d} dia${d===1?'':'s'} (${fmtDate(last.data)}).`; return `Última postagem: ${fmtDate(last.data)}.`}
+function bindBatchItemButtons(b){document.querySelectorAll('#batchBody [data-open]').forEach(x=>x.addEventListener('click',()=>openProductModal(x.dataset.open,b.itens.map(i=>i.productId)))); document.querySelectorAll('#batchBody [data-up]').forEach(x=>x.addEventListener('click',()=>moveItem(b.id,x.dataset.up,-1))); document.querySelectorAll('#batchBody [data-down]').forEach(x=>x.addEventListener('click',()=>moveItem(b.id,x.dataset.down,1))); document.querySelectorAll('#batchBody [data-swap]').forEach(x=>x.addEventListener('click',()=>openPicker(b.id,'replace',x.dataset.swap))); document.querySelectorAll('#batchBody [data-remove]').forEach(x=>x.addEventListener('click',()=>removeFromBatch(b.id,x.dataset.remove))); document.querySelectorAll('#batchBody [data-date]').forEach(x=>x.addEventListener('change',()=>updateItemDate(b.id,x.dataset.date,x.value))); document.querySelectorAll('#batchBody [data-publish]').forEach(x=>x.addEventListener('click',()=>{const it=b.itens.find(i=>i.productId===x.dataset.publish); if(it&&it.publicado)unmarkPublished(b.id,x.dataset.publish); else markPublished(b.id,x.dataset.publish)})); document.querySelectorAll('#batchBody [data-prio]').forEach(x=>x.addEventListener('click',()=>cyclePriorityInBatch(b.id,x.dataset.prio))); document.querySelectorAll('#batchBody [data-repost]').forEach(x=>x.addEventListener('click',()=>toggleRepostavelInBatch(b.id,x.dataset.repost)))}
+function reindexBatch(b){b.itens.forEach((it,i)=>it.ordem=i+1)}
+function updateItemDate(batchId,productId,value){const b=batchById(batchId); const it=b?.itens.find(i=>i.productId===productId); if(it){it.dataPrevista=value; saveState()}}
+function adjustTarget(batchId,delta){const b=batchById(batchId); if(!b)return; pushUndo('Ajustar meta'); b.targetCount=Math.max(1,(b.targetCount||DEFAULT_BATCH_TARGET)+delta); if(delta>0){const candidate=getCandidatesForBatch(b).filter(p=>!p.repostavel)[0]; if(candidate)b.itens.push({productId:candidate.id,ordem:b.itens.length+1,dataPrevista:'',publicado:false,publicadoEm:''})}else if(delta<0 && b.itens.length>b.targetCount){const rem=b.itens.pop(); restoreProductIfNeeded(rem.productId)} reindexBatch(b); saveState(); render(); openBatch(batchId)}
+function getCandidatesForBatch(b,category=null,repostables=false){const used=new Set((b.itens||[]).map(i=>i.productId)); return state.products.filter(p=>!used.has(p.id) && (repostables?p.repostavel:p.status==='Não Postado') && (!category||p.categoria===category)).sort((a,b)=>productOrder(a)-productOrder(b))}
+function moveItem(batchId,productId,dir){const b=batchById(batchId); const idx=b?.itens.findIndex(i=>i.productId===productId); if(!b||idx<0)return; const ni=idx+dir; if(ni<0||ni>=b.itens.length)return; pushUndo('Mover item'); const [it]=b.itens.splice(idx,1); b.itens.splice(ni,0,it); reindexBatch(b); saveState(); render(); openBatch(batchId)}
+function removeFromBatch(batchId,productId){const b=batchById(batchId); if(!b)return; pushUndo('Remover do lote'); b.itens=b.itens.filter(i=>i.productId!==productId); reindexBatch(b); restoreProductIfNeeded(productId); saveState(); render(); openBatch(batchId); showToast('Item removido do lote.')}
+function restoreProductIfNeeded(productId){const p=state.products.find(x=>x.id===productId); if(p && p.status==='A Postar')p.status='Não Postado'}
+function closeBatch(batchId){const b=batchById(batchId); if(!b)return; pushUndo('Fechar lote'); b.status='fechado'; b.itens.forEach(it=>{const p=itemProduct(it); if(p&&p.status!=='Publicado')p.status='A Postar'; addHistory(p,'Entrou em lote fechado',it.dataPrevista||today(),batchLabel(b))}); saveState(); render(); openBatch(batchId); showToast('Lote fechado. Itens foram para A Postar.')}
+function reopenBatch(batchId){const b=batchById(batchId); if(!b)return; pushUndo('Reabrir lote'); b.status='edicao'; b.itens.forEach(it=>restoreProductIfNeeded(it.productId)); saveState(); render(); openBatch(batchId)}
+function concludeBatch(batchId){const b=batchById(batchId); if(!b)return; pushUndo('Concluir lote'); b.status='concluido'; saveState(); render(); openBatch(batchId); showToast('Lote concluído.')}
+function deleteBatch(batchId){const b=batchById(batchId); if(!b)return; const n=(b.itens||[]).length; if(!confirm(`Excluir ${batchLabel(b)}? Os ${n} produto${n===1?'':'s'} deste lote voltam para "Não Postado". Dá para desfazer depois com o botão Desfazer.`))return; pushUndo('Excluir lote'); (b.itens||[]).forEach(it=>{const p=itemProduct(it); if(p){p.status='Não Postado'; p.publicadoEm='';}}); state.batches=state.batches.filter(x=>x.id!==batchId); saveState(); document.getElementById('batchOverlay').classList.remove('open'); render(); showToast('Lote excluído. Produtos voltaram para Não Postado.')}
+function markPublished(batchId,productId){const b=batchById(batchId); const it=b?.itens.find(i=>i.productId===productId); const p=itemProduct(it||{}); if(!b||!it||!p)return; pushUndo('Marcar publicado'); it.publicado=true; it.publicadoEm=today(); p.status='Publicado'; p.publicadoEm=today(); addHistory(p,'Publicado',today(),batchLabel(b)); saveState(); render(); openBatch(batchId); showToast('Marcado como publicado.')}
+function unmarkPublished(batchId,productId){const b=batchById(batchId); const it=b?.itens.find(i=>i.productId===productId); const p=itemProduct(it||{}); if(!b||!it||!p)return; pushUndo('Desmarcar publicado'); it.publicado=false; it.publicadoEm=''; p.status=(b.status==='edicao')?'Não Postado':'A Postar'; p.publicadoEm=''; if(Array.isArray(p.historico)){for(let i=p.historico.length-1;i>=0;i--){if(p.historico[i].tipo==='Publicado'){p.historico.splice(i,1);break;}}} saveState(); render(); openBatch(batchId); showToast('Voltou para não publicado.')}
+function cyclePriorityInBatch(batchId,productId){const p=state.products.find(x=>x.id===productId); if(!p)return; pushUndo('Mudar prioridade'); const order=['normal','alta','baixa']; const i=order.indexOf(p.prioridade||'normal'); p.prioridade=order[(i+1)%order.length]; saveState(); render(); openBatch(batchId); showToast('Prioridade: '+priorityLabel(p.prioridade)+'.')}
+function toggleRepostavelInBatch(batchId,productId){const p=state.products.find(x=>x.id===productId); if(!p)return; pushUndo('Marcar repostável'); p.repostavel=!p.repostavel; saveState(); render(); openBatch(batchId); showToast(p.repostavel?'Agora é repostável.':'Removido dos repostáveis.')}
+function addHistory(p,titulo,data,lote){if(!p)return; p.historico=p.historico||[]; p.historico.push({tipo:titulo==='Publicado'?'Publicado':'Lote',titulo,data,lote,createdAt:Date.now()})}
+function openPicker(batchId,mode,productId=null){const b=batchById(batchId); if(!b)return; pickerState={batchId,mode,productId,tab:'categoria'}; renderPicker()}
+function renderPicker(){const {batchId,mode,productId,tab}=pickerState; const b=batchById(batchId); const current=productId?state.products.find(p=>p.id===productId):null; const cat=current?.categoria||''; const candidates=tab==='repostaveis'?getCandidatesForBatch(b,null,true):getCandidatesForBatch(b,cat,false); document.getElementById('pickerTitle').textContent=mode==='add'?'Adicionar item':'Substituir item'; document.getElementById('pickerBody').innerHTML=`<div class="candidate-tabs"><button class="${tab==='categoria'?'active':''}" data-tab="categoria">Mesma categoria</button><button class="${tab==='repostaveis'?'active':''}" data-tab="repostaveis">Repostáveis</button></div><div class="list-meta">${tab==='categoria'?(cat?`Produtos não postados da categoria ${cat}`:'Produtos não postados'):'Qualquer item marcado como repostável, independente da categoria'}.</div><div class="candidate-list">${candidates.length?candidates.slice(0,120).map(p=>`<button class="candidate-card" data-pick="${p.id}"><div class="name">${escapeHtml(p.nome)}</div><div class="meta">${escapeHtml(p.categoria)} · ${escapeHtml(p.status)} ${p.repostavel?'· repostável':''} ${repetitionWarning(p,b)?'· '+escapeHtml(repetitionWarning(p,b)):''}</div></button>`).join(''):'<div class="empty-state"><h3>Nenhuma opção disponível</h3></div>'}</div>`; document.getElementById('pickerOverlay').classList.add('open'); document.querySelectorAll('#pickerBody [data-tab]').forEach(btn=>btn.addEventListener('click',()=>{pickerState.tab=btn.dataset.tab; renderPicker()})); document.querySelectorAll('#pickerBody [data-pick]').forEach(btn=>btn.addEventListener('click',()=>applyCandidate(btn.dataset.pick)))}
+function applyCandidate(candidateId){const {batchId,mode,productId}=pickerState; const b=batchById(batchId); if(!b)return; pushUndo('Escolher item'); if(mode==='replace'){const idx=b.itens.findIndex(i=>i.productId===productId); if(idx>=0){restoreProductIfNeeded(productId); b.itens[idx]={...b.itens[idx],productId:candidateId,publicado:false,publicadoEm:''}}}else{b.itens.push({productId:candidateId,ordem:b.itens.length+1,dataPrevista:'',publicado:false,publicadoEm:''}); b.targetCount=Math.max(b.targetCount||DEFAULT_BATCH_TARGET,b.itens.length)} if(b.status==='fechado'){const p=state.products.find(p=>p.id===candidateId); if(p&&p.status!=='Publicado')p.status='A Postar'} reindexBatch(b); saveState(); document.getElementById('pickerOverlay').classList.remove('open'); render(); openBatch(batchId); showToast('Item aplicado ao lote.')}
+function openBatchHistory(){const arr=sortedBatches(); document.getElementById('statusTitle').textContent='Lotes'; document.getElementById('statusBody').innerHTML=arr.length?arr.map(b=>`<button class="candidate-card" data-batch="${b.id}"><div class="name">${batchLabel(b)} · ${escapeHtml(b.label||'')}</div><div class="meta">${b.itens.length}/${b.targetCount||DEFAULT_BATCH_TARGET} posts · ${b.status}</div></button>`).join(''):'<div class="empty-state"><h3>Nenhum lote criado</h3></div>'; document.getElementById('statusOverlay').classList.add('open'); document.querySelectorAll('[data-batch]').forEach(btn=>btn.addEventListener('click',()=>{document.getElementById('statusOverlay').classList.remove('open'); openBatch(btn.dataset.batch)}))}
+function openProductionMode(batchId=null){const b=batchId?batchById(batchId):activeBatch(); if(!b||!b.itens.length){showToast('Crie ou abra um lote primeiro.');return} production={batchId:b.id,index:0}; renderProduction()}
+function renderProduction(){const b=batchById(production.batchId); if(!b)return; const items=b.itens.slice().sort((a,b)=>a.ordem-b.ordem); const item=items[production.index]; const p=itemProduct(item); if(!p)return; const img=p.imagemValor?`<img src="${escapeHtml(p.imagemValor)}" onerror="this.parentElement.textContent='Imagem não carregou'">`:'Sem imagem'; document.getElementById('productionBody').innerHTML=`<div class="prod-nav-mini"><button id="prodModePrev" ${production.index<=0?'disabled':''}>‹</button><span class="product-nav-label">${production.index+1} de ${items.length} · ${batchLabel(b)}</span><button id="prodModeNext" ${production.index>=items.length-1?'disabled':''}>›</button></div><div class="production-card"><div class="production-image">${img}</div><h3 class="production-title">${escapeHtml(p.nome)}</h3><div class="list-meta">${escapeHtml(p.categoria)} · ${p.sku?escapeHtml(p.sku)+' · ':''}${item.dataPrevista?`Previsto para ${fmtDate(item.dataPrevista)}`:'Sem data prevista'}</div>${repetitionWarning(p,b)?`<div class="warn-box">${escapeHtml(repetitionWarning(p,b))}</div>`:''}<div class="copy-grid"><button class="btn btn-ghost" data-copy-val="${escapeHtml(p.legenda)}">Copiar legenda</button><button class="btn btn-ghost" data-copy-val="${escapeHtml(p.linkProduto)}">Copiar link</button><button class="btn btn-ghost" data-copy-val="${escapeHtml(p.nome)}">Copiar nome</button><button class="btn btn-ghost" data-copy-val="${escapeHtml(p.imagemValor)}">Copiar imagem/link</button></div><button class="btn btn-primary" id="prodModePublish">Marcar como publicado</button></div>`; document.getElementById('productionOverlay').classList.add('open'); document.getElementById('prodModePrev')?.addEventListener('click',()=>{production.index--;renderProduction()}); document.getElementById('prodModeNext')?.addEventListener('click',()=>{production.index++;renderProduction()}); document.querySelectorAll('#productionBody [data-copy-val]').forEach(btn=>btn.addEventListener('click',()=>copyText(btn.dataset.copyVal))); document.getElementById('prodModePublish').addEventListener('click',()=>{markPublished(b.id,p.id); document.getElementById('batchOverlay').classList.remove('open'); renderProduction()})}
+function copyText(txt){
+  txt=(txt||'').toString();
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(txt).then(()=>showToast('Copiado.')).catch(()=>fallbackCopy(txt));
+  }else{ fallbackCopy(txt); }
+}
+function fallbackCopy(txt){
+  try{
+    const ta=document.createElement('textarea');
+    ta.value=txt; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.top='-1000px'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0,ta.value.length);
+    const ok=document.execCommand('copy'); document.body.removeChild(ta);
+    showToast(ok?'Copiado.':'Não consegui copiar — copie manualmente.');
+  }catch(e){ console.warn(e); showToast('Não consegui copiar — copie manualmente.'); }
+}
+async function fetchImageBlob(url){
+  // tenta direto (caso a imagem já libere CORS, ex: Supabase); senão, via intermediário que libera
+  try{ const r=await fetch(url,{mode:'cors'}); if(r.ok){ const b=await r.blob(); if(b.size>0) return b; } }catch(e){ /* cai no proxy */ }
+  const proxied='https://images.weserv.nl/?url='+encodeURIComponent(url.replace(/^https?:\/\//,''));
+  const r2=await fetch(proxied,{mode:'cors'});
+  if(!r2.ok) throw new Error('proxy '+r2.status);
+  return await r2.blob();
+}
+async function copyImage(url){
+  if(!url){ showToast('Sem imagem para copiar.'); return; }
+  if(!(navigator.clipboard && window.ClipboardItem && window.isSecureContext)){ copyText(url); showToast('Aqui não dá pra copiar a imagem — copiei o link. (No app publicado funciona.)'); return; }
+  showToast('Copiando imagem…');
+  try{
+    const blob=await fetchImageBlob(url);
+    const png=(blob.type==='image/png')?blob:await pngFromBlob(blob);
+    await navigator.clipboard.write([new ClipboardItem({'image/png':png})]);
+    showToast('Imagem copiada! É só colar.');
+  }catch(e){
+    console.warn('copyImage',e);
+    copyText(url);
+    showToast('Não consegui copiar a imagem — copiei o link no lugar.');
+  }
+}
+function pngFromBlob(blob){
+  return new Promise((resolve,reject)=>{
+    const u=URL.createObjectURL(blob); const im=new Image();
+    im.onload=()=>{ try{ const c=document.createElement('canvas'); c.width=im.naturalWidth; c.height=im.naturalHeight; c.getContext('2d').drawImage(im,0,0); c.toBlob(b=>{ URL.revokeObjectURL(u); b?resolve(b):reject(new Error('toBlob')); },'image/png'); }catch(err){ URL.revokeObjectURL(u); reject(err); } };
+    im.onerror=()=>{ URL.revokeObjectURL(u); reject(new Error('img load')); };
+    im.src=u;
+  });
+}
+function makeCsv(rows){return rows.map(r=>r.map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n')}
+function download(filename,text,type='text/csv;charset=utf-8;'){const blob=new Blob([text],{type}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
+function exportProductsCsv(){const header=['#','Nome do Produto','SKU','Categoria','Prioridade','Repostável','Status Post','Link do Produto','Link da Imagem','Legenda Instagram','Observações','Ordem de Postagem']; const rows=state.products.sort((a,b)=>productOrder(a)-productOrder(b)).map(p=>[p.numero,p.nome,p.sku,p.categoria,priorityLabel(p.prioridade),p.repostavel?'Sim':'Não',p.status,p.linkProduto,p.imagemValor,p.legenda,p.observacoes,p.ordemPostagem]); download(`vitrine-produtos-${currentClient().id}-v11.csv`, makeCsv([header,...rows]))}
+function exportBatchCsv(batchId){const b=batchById(batchId); if(!b)return; const header=['Ordem','Data prevista','Status no lote','Nome do Produto','SKU','Categoria','Prioridade','Repostável','Link do Produto','Link da Imagem','Legenda Instagram']; const rows=b.itens.slice().sort((a,b)=>a.ordem-b.ordem).map(it=>{const p=itemProduct(it)||{}; return [it.ordem,it.dataPrevista,it.publicado?'Publicado':'A postar',p.nome,p.sku,p.categoria,priorityLabel(p.prioridade),p.repostavel?'Sim':'Não',p.linkProduto,p.imagemValor,p.legenda]}); download(`${batchLabel(b).replace(/\s+/g,'-').toLowerCase()}-${currentClient().id}.csv`, makeCsv([header,...rows]))}
+function exportBackup(){syncCurrentStore(); download(`backup-vitrine-${currentClient().id}-v11.json`, JSON.stringify({version:11,clientId:state.clientId,stores:state.stores,exportedAt:new Date().toISOString()},null,2), 'application/json;charset=utf-8;')}
+function importBackup(file){const reader=new FileReader(); reader.onload=e=>{try{const data=JSON.parse(e.target.result); pushUndo('Importar backup'); if(data.stores){state.stores=data.stores; state.clientId=data.clientId||state.clientId||'maria'; CLIENTS.forEach(c=>{if(!state.stores[c.id])state.stores[c.id]=emptyStore()}); const store=state.stores[state.clientId]||emptyStore(); state.products=(store.products||[]).map(normalizeProduct); state.batches=store.batches||[]; state.trash=store.trash||[]; state.stores[state.clientId]={products:state.products,batches:state.batches,trash:state.trash};}else{state.products=(data.products||[]).map(normalizeProduct); state.batches=data.batches||[]; state.trash=data.trash||[];} saveState(); buildClientSelect(); activateClient(state.clientId,true); showToast('Backup importado.')}catch(err){showToast('Não consegui ler esse backup.')}}; reader.readAsText(file)}
+function parseCsv(text){const rows=[];let row=[],val='',inQ=false;for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1];if(c==='"'){if(inQ&&n==='"'){val+='"';i++}else inQ=!inQ}else if(c===','&&!inQ){row.push(val);val=''}else if((c==='\n'||c==='\r')&&!inQ){if(c==='\r'&&n==='\n')i++;row.push(val); if(row.some(x=>x.trim()))rows.push(row); row=[]; val=''}else val+=c} row.push(val); if(row.some(x=>x.trim()))rows.push(row); return rows}
+function importCsvFile(file){const reader=new FileReader(); reader.onload=e=>{try{const rows=parseCsv(e.target.result); const headerIdx=rows.findIndex(r=>r.includes('Nome do Produto')); if(headerIdx<0){showToast('CSV sem coluna Nome do Produto.');return} const header=rows[headerIdx]; const idx=name=>header.indexOf(name); const imported=rows.slice(headerIdx+1).map((r,i)=>{const get=n=>idx(n)>=0?(r[idx(n)]||'').trim():''; if(!get('Nome do Produto'))return null; return normalizeProduct({id:uid('csv'),numero:get('#'),nome:get('Nome do Produto'),sku:get('SKU'),categoria:get('Categoria')||'Outro',relevancia:get('Relevância')||'Comum',status:normalizeStatus(get('Status Post')),linkProduto:get('Link do Produto'),imagemValor:get('Link da Imagem'),legenda:get('Legenda Instagram'),observacoes:get('Observações'),ordemPostagem:get('Ordem de Postagem'),ordemImportacao:state.products.length+i+1})}).filter(Boolean); pushUndo('Importar CSV'); const bySku=new Map(state.products.filter(p=>p.sku).map(p=>[p.sku.toLowerCase(),p])); const byName=new Map(state.products.map(p=>[p.nome.toLowerCase(),p])); imported.forEach(np=>{let old=np.sku?bySku.get(np.sku.toLowerCase()):null; if(!old)old=byName.get(np.nome.toLowerCase()); if(old){Object.assign(old,{...np,id:old.id,historico:old.historico||[],repostavel:old.repostavel||np.repostavel,prioridade:old.prioridade||np.prioridade})}else state.products.push(np)}); saveState(); render(); showToast(`CSV importado: ${imported.length} itens lidos.`)}catch(err){console.error(err);showToast('Não consegui importar esse CSV.')}}; reader.readAsText(file,'utf-8')}
+
+// Sempre traz o overlay recém-aberto para a frente (evita popup abrindo atrás de outro)
+(function(){
+  let z=100;
+  const obs=new MutationObserver(muts=>muts.forEach(m=>{
+    const el=m.target;
+    if(el.classList && el.classList.contains('overlay') && el.classList.contains('open')){ el.style.zIndex=(++z); }
+  }));
+  document.querySelectorAll('.overlay').forEach(el=>obs.observe(el,{attributes:true,attributeFilter:['class']}));
+})();
+// Botões da miniatura: copiar link / abrir imagem — sem abrir o produto
+document.addEventListener('click',function(e){
+  if(!e.target.closest)return;
+  const c=e.target.closest('[data-copyimg]');
+  if(c){ e.stopPropagation(); e.preventDefault(); const p=state.products.find(x=>x.id===c.dataset.copyimg); if(p&&p.imagemValor)copyImage(p.imagemValor); else showToast('Sem imagem.'); return; }
+  const o=e.target.closest('[data-openimg]');
+  if(o){ e.stopPropagation(); e.preventDefault(); const p=state.products.find(x=>x.id===o.dataset.openimg); if(p&&p.imagemValor)window.open(p.imagemValor,'_blank'); else showToast('Sem imagem.'); }
+},true);
+init();
+</script>
+</body>
+</html>
