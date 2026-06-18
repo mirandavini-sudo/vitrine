@@ -31,6 +31,20 @@
 body[data-client="maria"]{--accent:#17150F;--accent2:#9B9388;--accentSoft:#E4E1D9;--accentSurface:#F3F1EC;}
 body[data-client="chapelaria"]{--accent:#6B4324;--accent2:#C9A876;--accentSoft:#ECDFC4;--accentSurface:#F8F1E4;}
 body[data-client="ze"]{--accent:#1B3A8F;--accent2:#7FA6E8;--accentSoft:#DCE8FB;--accentSurface:#EEF4FD;}
+/* ===== Modo escuro (por cliente) ===== */
+body[data-theme="dark"]{--bg:#141210;--surface:#201d18;--surface2:#2a261f;--ink:#f1eee7;--soft:#a69d90;--faint:#6f6657;--line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.17);--shadow:0 1px 2px rgba(0,0,0,.35),0 12px 34px rgba(0,0,0,.5);}
+body[data-theme="dark"][data-client="maria"]{--accent:#5b5446;--accent2:#9B9388;--accentSoft:#332f27;--accentSurface:#2a261f;}
+body[data-theme="dark"][data-client="chapelaria"]{--accent:#8a5a32;--accent2:#C9A876;--accentSoft:#3a2c1a;--accentSurface:#2e2620;}
+body[data-theme="dark"][data-client="ze"]{--accent:#3157b0;--accent2:#7FA6E8;--accentSoft:#1f2e52;--accentSurface:#222632;}
+body[data-theme="dark"] .pend-dot.img,body[data-theme="dark"] .prio-alta{background:#43271a;color:#f0b48c}
+body[data-theme="dark"] .pend-dot.arte{background:#3a3020;color:#d8b87a}
+body[data-theme="dark"] .pend-dot.link,body[data-theme="dark"] .st-link{background:#4a2420;color:#f0a8a0;border:none}
+body[data-theme="dark"] .prio-baixa{background:#1f2e52;color:#a8c4f0}
+body[data-theme="dark"] .pend-dot.arte-ok{background:#23331f;color:#9fd08a}
+body[data-theme="dark"] .btn-danger{background:#3a1f1c;color:#f0a8a0}
+body[data-theme="dark"] .close-batch-hint,body[data-theme="dark"] .warn-box{background:#3a3020;color:#e6c48f}
+body[data-theme="dark"] .auth-overlay{background:var(--bg)}
+.theme-btn{cursor:pointer}
 .client-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .client-copy{min-width:220px;flex:1}.client-copy h1{font-size:31px}
 .client-switcher{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:10px 12px;box-shadow:0 1px 2px rgba(24,20,15,.03);min-width:230px}
@@ -264,7 +278,7 @@ body { overflow-x: hidden; }
 </head>
 <body data-client="maria">
 <div id="app">
-  <div class="topbar"><div class="wordmark">Vitri<span>n</span>e</div><div style="display:flex;gap:8px;align-items:center"><span class="sync-dot" id="syncDot" title="Sincronizado com a nuvem"></span><span class="mini-version">v11</span><button class="mini-version" id="btnLogout" style="cursor:pointer;display:none">Sair</button></div></div>
+  <div class="topbar"><div class="wordmark">Vitri<span>n</span>e</div><div style="display:flex;gap:8px;align-items:center"><button class="mini-version theme-btn" id="btnTheme" title="Alternar claro/escuro">🌙</button><span class="sync-dot" id="syncDot" title="Sincronizado com a nuvem"></span><span class="mini-version">v11</span><button class="mini-version" id="btnLogout" style="cursor:pointer;display:none">Sair</button></div></div>
   <div class="client-head">
     <div class="client-copy"><h1 id="clientName">Maria Chapéu</h1><p class="client-tagline" id="clientTagline">Organizador de produtos, lotes mensais e postagens recorrentes</p></div>
     <div class="client-switcher"><label for="clientSelect">Loja ativa</label><select id="clientSelect"></select></div>
@@ -425,6 +439,9 @@ let currentUser = null;
 let cloudSaveTimer = null;
 let cloudReadOk = false; // só empurra p/ nuvem depois de confirmar uma leitura (evita sobrescrever com vazio se a internet falhar)
 function setSyncDot(s){const d=document.getElementById('syncDot'); if(!d)return; d.className='sync-dot'+(s?(' '+s):''); d.title=s==='ok'?'Sincronizado com a nuvem':s==='saving'?'Salvando…':s==='erro'?'Erro ao sincronizar (dados salvos no aparelho)':'Sincronizado';}
+function applyTheme(t){document.body.setAttribute('data-theme',t); try{localStorage.setItem('vitrine_theme',t)}catch(e){} const b=document.getElementById('btnTheme'); if(b)b.textContent=t==='dark'?'☀️':'🌙';}
+function toggleTheme(){applyTheme(document.body.getAttribute('data-theme')==='dark'?'light':'dark');}
+function initTheme(){let t; try{t=localStorage.getItem('vitrine_theme')}catch(e){} if(!t)t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; applyTheme(t);}
 const CLIENTS = [
   {id:'maria', nome:'Maria Chapéu', tagline:'Organizador de produtos, lotes mensais e postagens recorrentes'},
   {id:'chapelaria', nome:'Chapelaria Acessórios', tagline:'Organizador de produtos, lotes mensais e postagens recorrentes'},
@@ -598,6 +615,7 @@ function applyBulk(){
 }
 
 async function init(){
+  initTheme();
   fillSelect('filterStatus',STATUSES,'Todos os status');
   fillSelect('filterCategoria',CATEGORIES,'Todas as categorias');
   bind(); bindAuth();
@@ -626,6 +644,7 @@ function hideLogin(){document.getElementById('authOverlay').classList.remove('op
 function bindAuth(){
   document.getElementById('authForm').addEventListener('submit',doLogin);
   document.getElementById('btnLogout').addEventListener('click',doLogout);
+  document.getElementById('btnTheme')?.addEventListener('click',toggleTheme);
   document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') syncFromCloud(); });
 }
 async function doLogin(e){
