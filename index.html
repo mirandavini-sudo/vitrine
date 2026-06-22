@@ -51,7 +51,7 @@ body[data-theme="dark"] .auth-overlay{background:var(--bg)}
 .client-switcher label{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:900;color:var(--faint);margin-bottom:5px}
 .client-switcher select{width:100%;border:1px solid var(--line2);background:var(--surface2);border-radius:999px;padding:9px 12px;font-size:13.5px;font-weight:850;color:var(--ink)}
 .toolbar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:12px;box-shadow:0 1px 2px rgba(24,20,15,.03)}
-.action-row{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:10px;align-items:stretch}
+.action-row{display:block}
 .action-group{background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:10px;min-width:0}
 .action-group-title{font-size:10.5px;font-weight:900;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px 2px}
 .action-group-buttons{display:flex;gap:7px;flex-wrap:wrap}.action-group-buttons .btn{padding:9px 12px;font-size:12.5px;flex:1;min-width:max-content}
@@ -300,31 +300,14 @@ body { overflow-x: hidden; }
     </div>
     <div class="action-row">
       <div class="action-group main">
-        <div class="action-group-title">Planejamento</div>
         <div class="action-group-buttons">
-          <button class="btn btn-primary btn-icon-label" id="btnSelecaoMes">📅 Criar/abrir lote</button>
-          <button class="btn btn-soft btn-icon-label" id="btnModoProducao">▶ Modo produção</button>
-          <button class="btn btn-ghost btn-icon-label" id="btnCalendario">📅 Calendário</button>
-          <button class="btn btn-ghost btn-icon-label" id="btnNovoProduto">＋ Novo produto</button>
+          <button class="btn btn-primary btn-icon-label" id="btnSelecaoMes">Criar / abrir lote</button>
+          <button class="btn btn-soft btn-icon-label" id="btnModoProducao">Modo produção</button>
+          <button class="btn btn-ghost btn-icon-label" id="btnCalendario">Calendário</button>
+          <button class="btn btn-ghost btn-icon-label" id="btnNovoProduto">Novo produto</button>
           <button class="btn btn-select-mode" id="btnSelectMode">Selecionar</button>
-        </div>
-      </div>
-      <div class="action-group data">
-        <div class="action-group-title">Dados</div>
-        <div class="action-group-buttons">
-          <button class="btn btn-ghost" id="btnImportar">Importar CSV</button>
-          <button class="btn btn-ghost" id="btnExportar">Exportar CSV</button>
-          <button class="btn btn-ghost" id="btnExportarBackup">Backup JSON</button>
-          <button class="btn btn-ghost" id="btnImportarBackup">Importar backup</button>
-          <button class="btn btn-ghost" id="btnRenumerar">🔢 Renumerar</button>
-        </div>
-      </div>
-      <div class="action-group safety">
-        <div class="action-group-title">Segurança</div>
-        <div class="action-group-buttons">
-          <button class="btn btn-ghost" id="btnLixeira">Lixeira</button>
           <button class="btn btn-quiet" id="btnUndo">Desfazer</button>
-          <button class="btn btn-danger" id="btnLimparTudo">Limpar loja</button>
+          <button class="btn btn-ghost btn-icon-label" id="btnTools">Ferramentas</button>
         </div>
       </div>
     </div>
@@ -362,6 +345,7 @@ body { overflow-x: hidden; }
 <div class="overlay" id="productionOverlay"><div class="modal"><div class="modal-head"><h2>Modo produção</h2><button class="modal-close" data-close="productionOverlay">✕</button></div><div id="productionBody"></div></div></div>
 <div class="overlay" id="trashOverlay"><div class="modal"><div class="modal-head"><h2>Lixeira</h2><button class="modal-close" data-close="trashOverlay">✕</button></div><div id="trashBody"></div></div></div>
 <div class="overlay" id="calendarOverlay"><div class="modal wide"><div class="modal-head"><h2>Calendário de postagem</h2><button class="modal-close" data-close="calendarOverlay">✕</button></div><div id="calendarBody"></div></div></div>
+<div class="overlay" id="toolsOverlay"><div class="modal"><div class="modal-head"><h2>Ferramentas</h2><button class="modal-close" data-close="toolsOverlay">✕</button></div><div style="display:flex;flex-direction:column;gap:8px"><div class="action-group-title" style="margin:2px 0 0">Dados</div><button class="btn btn-ghost" id="btnImportar">Importar CSV</button><button class="btn btn-ghost" id="btnExportar">Exportar CSV</button><button class="btn btn-ghost" id="btnExportarBackup">Backup completo (JSON)</button><button class="btn btn-ghost" id="btnImportarBackup">Importar backup</button><button class="btn btn-ghost" id="btnRenumerar">Renumerar ordem de postagem</button><div class="action-group-title" style="margin:8px 0 0">Loja</div><button class="btn btn-ghost" id="btnLixeira">Lixeira</button><button class="btn btn-danger" id="btnLimparTudo">Limpar loja</button></div></div></div>
 <div class="overlay" id="csvOverlay"><div class="modal"><div class="modal-head"><h2 id="csvTitle">CSV</h2><button class="modal-close" data-close="csvOverlay">✕</button></div><div id="csvBody"></div></div></div>
 <div class="toast" id="toast"></div>
 
@@ -703,7 +687,7 @@ async function syncFromCloud(){
   if(status==='loaded'){ buildClientSelect(); render(); }
 }
 function fillSelect(id,items,placeholder){const sel=document.getElementById(id); sel.innerHTML=''; if(placeholder){const o=document.createElement('option');o.value='';o.textContent=placeholder;sel.appendChild(o)} items.forEach(it=>{const o=document.createElement('option');o.value=it;o.textContent=it;sel.appendChild(o)})}
-function bind(){document.getElementById('searchInput').addEventListener('input',e=>{state.search=e.target.value; state.visibleCount=40; renderList()}); ['filterStatus','filterCategoria','filterPrioridade','filterPendencia'].forEach(id=>document.getElementById(id).addEventListener('change',e=>{state[id.replace('filter','filter')]=e.target.value; if(id==='filterStatus')state.filterStatus=e.target.value; if(id==='filterCategoria')state.filterCategoria=e.target.value; if(id==='filterPrioridade')state.filterPrioridade=e.target.value; if(id==='filterPendencia')state.filterPendencia=e.target.value; state.visibleCount=40; renderList()})); document.getElementById('btnLoadMore').addEventListener('click',()=>{state.visibleCount+=40;renderList()}); document.getElementById('btnSelecaoMes').addEventListener('click',openOrCreateBatch); document.getElementById('heroLoteBtn').addEventListener('click',openOrCreateBatch); document.getElementById('btnNovoProduto').addEventListener('click',()=>openProductModal(null)); document.getElementById('btnModoProducao').addEventListener('click',openProductionMode); document.getElementById('btnCalendario').addEventListener('click',openCalendar); document.getElementById('btnImportar').addEventListener('click',()=>document.getElementById('csvFileInput').click()); document.getElementById('csvFileInput').addEventListener('change',e=>{const f=e.target.files[0]; if(f)importCsvFile(f); e.target.value=''}); document.getElementById('btnExportar').addEventListener('click',exportProductsCsv); document.getElementById('btnExportarBackup').addEventListener('click',exportBackup); document.getElementById('btnImportarBackup').addEventListener('click',()=>document.getElementById('backupFileInput').click()); document.getElementById('backupFileInput').addEventListener('change',e=>{const f=e.target.files[0]; if(f)importBackup(f); e.target.value=''}); document.getElementById('btnLixeira').addEventListener('click',openTrash); document.getElementById('btnUndo').addEventListener('click',undo); document.getElementById('btnRenumerar').addEventListener('click',reordenarNumeracao);
+function bind(){document.getElementById('searchInput').addEventListener('input',e=>{state.search=e.target.value; state.visibleCount=40; renderList()}); ['filterStatus','filterCategoria','filterPrioridade','filterPendencia'].forEach(id=>document.getElementById(id).addEventListener('change',e=>{state[id.replace('filter','filter')]=e.target.value; if(id==='filterStatus')state.filterStatus=e.target.value; if(id==='filterCategoria')state.filterCategoria=e.target.value; if(id==='filterPrioridade')state.filterPrioridade=e.target.value; if(id==='filterPendencia')state.filterPendencia=e.target.value; state.visibleCount=40; renderList()})); document.getElementById('btnLoadMore').addEventListener('click',()=>{state.visibleCount+=40;renderList()}); document.getElementById('btnSelecaoMes').addEventListener('click',openOrCreateBatch); document.getElementById('heroLoteBtn').addEventListener('click',openOrCreateBatch); document.getElementById('btnNovoProduto').addEventListener('click',()=>openProductModal(null)); document.getElementById('btnModoProducao').addEventListener('click',openProductionMode); document.getElementById('btnCalendario').addEventListener('click',openCalendar); document.getElementById('btnImportar').addEventListener('click',()=>document.getElementById('csvFileInput').click()); document.getElementById('csvFileInput').addEventListener('change',e=>{const f=e.target.files[0]; if(f)importCsvFile(f); e.target.value=''}); document.getElementById('btnExportar').addEventListener('click',exportProductsCsv); document.getElementById('btnExportarBackup').addEventListener('click',exportBackup); document.getElementById('btnImportarBackup').addEventListener('click',()=>document.getElementById('backupFileInput').click()); document.getElementById('backupFileInput').addEventListener('change',e=>{const f=e.target.files[0]; if(f)importBackup(f); e.target.value=''}); document.getElementById('btnLixeira').addEventListener('click',openTrash); document.getElementById('btnTools')?.addEventListener('click',()=>document.getElementById('toolsOverlay').classList.add('open')); document.querySelectorAll('#toolsOverlay .btn').forEach(b=>b.addEventListener('click',()=>setTimeout(()=>document.getElementById('toolsOverlay').classList.remove('open'),60))); document.getElementById('btnUndo').addEventListener('click',undo); document.getElementById('btnRenumerar').addEventListener('click',reordenarNumeracao);
   document.getElementById('btnLimparTudo').addEventListener('click',resetApp);
   document.getElementById('btnSelectMode').addEventListener('click',toggleSelectMode);
   document.getElementById('btnBulkApply').addEventListener('click',applyBulk); document.getElementById('btnBulkLote')?.addEventListener('click',addSelectedToBatch);
